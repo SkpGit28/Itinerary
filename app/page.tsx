@@ -201,7 +201,7 @@ export default function Page() {
         <div className="mx-auto w-full max-w-3xl">
           {html ? (
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm">
-              <div className="prose prose-invert prose-zinc max-w-none">
+              <div className="prose prose-invert prose-zinc max-w-none text-center">
                 <article dangerouslySetInnerHTML={{ __html: html }} />
               </div>
             </div>
