@@ -1,13 +1,8 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tailwindcss";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #0b0b0c;
+  --foreground: #e7e7ea;
 }
 
 html,
@@ -18,10 +13,9 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: radial-gradient(1200px 800px at 20% -10%, #1b1b1f 0%, transparent 60%),
+              radial-gradient(800px 600px at 100% 20%, #111118 0%, transparent 60%),
+              #0b0b0c;
 }
 
 * {
@@ -36,6 +30,11 @@ a {
 }
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+
   html {
     color-scheme: dark;
   }

@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Itinerary Planner (Local Ollama)
+
+- Requires Ollama running at http://localhost:11434 and a pulled model (default `llama3.1:8b`).
+- Configure `.env.local`:
+  - OLLAMA_BASE=http://localhost:11434
+  - MODEL_NAME=llama3.1:8b
+  - REQUEST_TIMEOUT_MS=60000
+- Start dev server: `npm run dev` then open http://localhost:3000
+- Plan your visit by entering destination and dates, then click "Plan my visit".
