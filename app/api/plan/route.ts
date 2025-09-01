@@ -1,7 +1,23 @@
 // app/api/plan/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import type { ItineraryJson } from "@/lib/schema";
 
 export const runtime = "nodejs"; // keep Node runtime (safe default)
+
+function isRecord(x: unknown): x is Record<string, unknown> {
+  return typeof x === 'object' && x !== null;
+}
+
+function isItineraryJson(x: unknown): x is ItineraryJson {
+  if (!isRecord(x)) return false;
+  const { destination, startDate, endDate, days, generalTips } = x as Record<string, unknown>;
+  if (typeof destination !== 'string') return false;
+  if (typeof startDate !== 'string') return false;
+  if (typeof endDate !== 'string') return false;
+  if (!Array.isArray(days)) return false;
+  if (!Array.isArray(generalTips)) return false;
+  return true;
+}
 
 export async function POST(req: NextRequest) {
   const { destination, startDate, endDate, model = "llama-3.1-8b-instant" } = await req.json();
@@ -42,8 +58,11 @@ export async function POST(req: NextRequest) {
     const data1 = await r1.json();
     const raw1: string = data1?.choices?.[0]?.message?.content ?? "";
 
-    let itineraryJson: any = null;
-    try { itineraryJson = JSON.parse(raw1); } catch {}
+    let itineraryJson: ItineraryJson | null = null;
+    try {
+      const parsed: unknown = JSON.parse(raw1);
+      if (isItineraryJson(parsed)) itineraryJson = parsed;
+    } catch {}
 
     // One repair attempt if parsing somehow fails
     if (!itineraryJson) {
@@ -65,7 +84,10 @@ export async function POST(req: NextRequest) {
       if (rRepair && rRepair.ok) {
         const d = await rRepair.json().catch(() => null);
         const fixedText: string = d?.choices?.[0]?.message?.content ?? "";
-        try { itineraryJson = JSON.parse(fixedText); } catch {}
+        try {
+          const repaired: unknown = JSON.parse(fixedText);
+          if (isItineraryJson(repaired)) itineraryJson = repaired;
+        } catch {}
       }
 
       if (!itineraryJson) {
@@ -102,9 +124,9 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ itineraryJson, itineraryMarkdown });
-  } catch (e: any) {
+  } catch (e: unknown) {
     clearTimeout(timeout);
-    const msg = e?.name === "AbortError" ? "timeout" : (e?.message || "request failed");
+    const msg = e instanceof Error && e.name === "AbortError" ? "timeout" : (e instanceof Error ? e.message : "request failed");
     return NextResponse.json({ error: msg }, { status: 504 });
   }
 }
