@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Itinerary Planner (Local Ollama)",
-  description: "Generate day-by-day travel plans locally with Ollama.",
+  title: "Itinerary Planner · Groq",
+  description: "Generate practical day-by-day travel plans with Groq.",
 };
 
 export default function RootLayout({
