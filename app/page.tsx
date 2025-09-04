@@ -186,7 +186,7 @@ export default function Page() {
 
             {/* CTA */}
             <div>
-              <Button onClick={onPlan} disabled={loading} className="h-11 rounded-full px-6 bg-white/10 hover:bg-white/15 border border-white/10 text-zinc-100">
+              <Button onClick={onPlan} disabled={loading} className="h-14 w-32 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 text-zinc-100">
                 {loading ? 'Generating…' : 'Plan my Trip'}
               </Button>
             </div>
