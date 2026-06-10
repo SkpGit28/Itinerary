@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useRef } from 'react';
+import Link from 'next/link';
 import { renderMarkdown } from '@/lib/sanitize';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -119,6 +120,18 @@ export default function Page() {
 
   return (
     <main className="min-h-svh flex flex-col">
+      {/* Top nav */}
+      <header className="sticky top-0 z-10 border-b border-white/5 bg-[#0b0b0c]/80 backdrop-blur-md px-4 py-3 flex items-center gap-3">
+        <span className="text-sm font-semibold text-zinc-100">Itinerary Planner</span>
+        <span className="text-zinc-700 select-none">|</span>
+        <Link
+          href="/village-map"
+          className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
+        >
+          Village Map Framer →
+        </Link>
+      </header>
+
       {/* Top-right Clear button (always visible, disabled when empty) */}
       <div className="fixed top-4 right-4 z-30">
         <TooltipProvider>

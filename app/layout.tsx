@@ -8,8 +8,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Itinerary Planner · Groq",
-  description: "Generate practical day-by-day travel plans with Groq.",
+  title: "Travel Tools",
+  description: "Itinerary planner and village map framer.",
 };
 
 export default function RootLayout({
