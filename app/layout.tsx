@@ -8,15 +8,13 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Itinerary Planner · Groq",
-  description: "Generate practical day-by-day travel plans with Groq.",
+  title: "Village Map Framer",
+  description: "Enter a village name, share your location, and get a framed satellite map.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className={jakarta.className}>{children}</body>

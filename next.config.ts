@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    optimizePackageImports: ["marked", "isomorphic-dompurify"],
-  },
+  experimental: { optimizePackageImports: ["lucide-react"] },
 };
 
 export default nextConfig;

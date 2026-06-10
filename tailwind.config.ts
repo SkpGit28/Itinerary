@@ -1,8 +1,9 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
-export default {
-  // Tailwind v4 can work without content globs; keep minimal config.
-  theme: {
-    extend: {},
-  },
-} satisfies Config
+const config: Config = {
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: { extend: {} },
+  plugins: [],
+};
+
+export default config;
