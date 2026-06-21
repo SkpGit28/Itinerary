@@ -24,9 +24,13 @@ const HEIGHT = hArg ? parseInt(hArg, 10) : 1920;
 const TOTAL_FRAMES = Math.round(DURATION * FPS);
 const FRAMES_DIR = path.join(path.dirname(OUT_PATH), ".frames-" + path.basename(OUT_PATH, ".mp4"));
 
-// Read GSAP from local node_modules — no CDN needed
-const GSAP_PATH = path.resolve(__dirname, "../node_modules/gsap/dist/gsap.min.js");
-const GSAP_SRC  = fs.existsSync(GSAP_PATH) ? fs.readFileSync(GSAP_PATH, "utf8") : null;
+// Read GSAP, D3, topojson from local node_modules — no CDN needed
+const GSAP_PATH     = path.resolve(__dirname, "../node_modules/gsap/dist/gsap.min.js");
+const D3_PATH       = path.resolve(__dirname, "../node_modules/d3/dist/d3.min.js");
+const TOPOJSON_PATH = path.resolve(__dirname, "../node_modules/topojson-client/dist/topojson-client.min.js");
+const GSAP_SRC      = fs.existsSync(GSAP_PATH)     ? fs.readFileSync(GSAP_PATH, "utf8")     : null;
+const D3_SRC        = fs.existsSync(D3_PATH)        ? fs.readFileSync(D3_PATH, "utf8")        : null;
+const TOPOJSON_SRC  = fs.existsSync(TOPOJSON_PATH)  ? fs.readFileSync(TOPOJSON_PATH, "utf8")  : null;
 
 (async () => {
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
@@ -41,19 +45,25 @@ const GSAP_SRC  = fs.existsSync(GSAP_PATH) ? fs.readFileSync(GSAP_PATH, "utf8") 
   const page = await browser.newPage();
   await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 1 });
 
-  // Block CDN requests and inject GSAP locally instead
+  // Block CDN requests and inject libraries locally instead
   await page.setRequestInterception(true);
   page.on("request", (req) => {
-    if (req.url().includes("gsap") && GSAP_SRC) req.abort();
-    else req.continue();
+    const u = req.url();
+    if ((u.includes("gsap") && GSAP_SRC) ||
+        (u.includes("/d3") && D3_SRC) ||
+        (u.includes("topojson") && TOPOJSON_SRC)) {
+      req.abort();
+    } else {
+      req.continue();
+    }
   });
 
   await page.goto("file://" + HTML_PATH, { waitUntil: "networkidle0" });
 
-  // Inject local GSAP if it wasn't loaded from CDN
-  if (GSAP_SRC) {
-    await page.evaluate(GSAP_SRC);
-  }
+  // Inject local libraries in dependency order
+  if (D3_SRC)       await page.evaluate(D3_SRC);
+  if (TOPOJSON_SRC) await page.evaluate(TOPOJSON_SRC);
+  if (GSAP_SRC)     await page.evaluate(GSAP_SRC);
 
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => { if (window.gsap) gsap.globalTimeline.pause(); });
