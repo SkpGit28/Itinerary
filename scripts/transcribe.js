@@ -1,17 +1,15 @@
-// Whisper transcription — returns { text, words: [{word, start, end}] }
-import OpenAI from "openai";
-import fs from "fs";
+"use strict";
+const OpenAI = require("openai");
+const fs = require("fs");
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-export async function transcribeAudio(wavPath) {
+async function transcribeAudio(wavPath) {
+  const openai = new OpenAI.default({ apiKey: process.env.OPENAI_API_KEY });
   const resp = await openai.audio.transcriptions.create({
     file: fs.createReadStream(wavPath),
     model: "whisper-1",
     response_format: "verbose_json",
     timestamp_granularities: ["word"],
   });
-
   return {
     text: resp.text,
     duration: resp.duration,
@@ -22,3 +20,5 @@ export async function transcribeAudio(wavPath) {
     })),
   };
 }
+
+module.exports = { transcribeAudio };

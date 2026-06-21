@@ -1,8 +1,7 @@
-// Map a scene's intent to the best motion-pack template.
-// Falls back to generating a fresh HTML scene if nothing fits.
-import path from "path";
-import fs from "fs";
-import { generateTemplate } from "./generate-template.js";
+"use strict";
+const path = require("path");
+const fs   = require("fs");
+const { generateTemplate } = require("./generate-template");
 
 const INTENT_MAP = {
   waveform:   "01-audio-waveform",
@@ -16,12 +15,11 @@ const INTENT_MAP = {
   progress:   "10-progress-bar",
 };
 
-export function selectTemplate(scene, motionPackDir, { platform, width, height }) {
+async function selectTemplate(scene, motionPackDir, opts) {
   const folder = INTENT_MAP[scene.intent] ?? "01-audio-waveform";
   const candidate = path.join(motionPackDir, "templates", folder, "scene.html");
-
   if (fs.existsSync(candidate)) return candidate;
-
-  // fall back: generate a bespoke HTML template for this phrase
-  return generateTemplate(scene, { platform, width, height });
+  return generateTemplate(scene, opts);
 }
+
+module.exports = { selectTemplate };

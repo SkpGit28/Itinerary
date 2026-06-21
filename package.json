@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "video": "node --experimental-vm-modules scripts/pipeline.js",
+    "video": "node scripts/pipeline.js",
     "video:overlay": "node --experimental-vm-modules scripts/overlay.js",
     "render-scene": "node motion-pack/render-scene.js"
   },
