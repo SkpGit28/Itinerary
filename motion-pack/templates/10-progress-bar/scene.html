@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  html, body { margin:0; padding:0; width:1080px; height:1920px; background:#0A0808; overflow:hidden; font-family: -apple-system, "Inter", sans-serif; color: #EDD9BC; }
+  .stage {
+    position: absolute; left: 60px; right: 60px; top: 50%;
+    transform: translateY(-50%);
+  }
+  .step {
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 26px;
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  .step .pill {
+    width: 72px; height: 72px;
+    background: rgba(22,19,19,0.92);
+    border: 2px solid rgba(237,217,188,0.18);
+    border-radius: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 32px; font-weight: 900;
+    color: #D97757;
+    flex-shrink: 0;
+  }
+  .step .label {
+    font-size: 36px; font-weight: 600; color: #EDD9BC;
+    letter-spacing: -0.3px;
+  }
+  .step .check {
+    margin-left: auto;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #4CD964;
+    color: #FFF; font-weight: 900; font-size: 32px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(0.4);
+  }
+  .bar-track {
+    margin-top: 60px;
+    height: 18px;
+    background: rgba(237,217,188,0.12);
+    border-radius: 9px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #B68C5A 0%, #D97757 50%, #F4A88A 100%);
+    border-radius: 9px;
+    box-shadow: 0 0 20px rgba(217,119,87,0.5);
+  }
+  .pct {
+    text-align: right; margin-top: 14px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 30px; font-weight: 700; color: #D97757;
+  }
+</style>
+</head><body>
+<div class="stage">
+  <div class="step" id="s1">
+    <div class="pill">01</div>
+    <div class="label">Install HyperFrames</div>
+    <div class="check" id="c1">✓</div>
+  </div>
+  <div class="step" id="s2">
+    <div class="pill">02</div>
+    <div class="label">Load Remotion skill</div>
+    <div class="check" id="c2">✓</div>
+  </div>
+  <div class="step" id="s3">
+    <div class="pill">03</div>
+    <div class="label">Paste the prompt</div>
+    <div class="check" id="c3">✓</div>
+  </div>
+  <div class="step" id="s4">
+    <div class="pill">04</div>
+    <div class="label">Ship the video</div>
+    <div class="check" id="c4">✓</div>
+  </div>
+  <div class="bar-track"><div class="bar-fill" id="bar"></div></div>
+  <div class="pct"><span id="pct">0</span>%</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const tl = gsap.timeline();
+  ["#s1","#s2","#s3","#s4"].forEach((s, i) => {
+    tl.to(s, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, i * 0.5);
+    tl.to(`#c${i+1}`, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, i * 0.5 + 0.25);
+  });
+  const pctState = { n: 0 };
+  tl.to(pctState, {
+    n: 100, duration: 2.0, ease: "power2.inOut",
+    onUpdate: () => {
+      document.getElementById("pct").textContent = Math.round(pctState.n);
+      document.getElementById("bar").style.width = pctState.n + "%";
+    }
+  }, 0.2);
+  tl.to({}, { duration: 0.6 });
+</script>
+</body></html>
