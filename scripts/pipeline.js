@@ -51,7 +51,7 @@ function run(cmd) {
 
   // ── Step 2: transcribe ─────────────────────────────────────────────────────
   console.log("\n[2/8] Transcribing with Whisper…");
-  const transcript = await transcribeAudio(wavFile);
+  const transcript = await transcribeAudio(wavFile, topic);
   fs.writeFileSync(path.join(OUTPUT_DIR, "transcript.json"), JSON.stringify(transcript, null, 2));
   console.log(`  → "${transcript.text.slice(0, 120)}…"`);
   console.log(`  → ${transcript.words.length} words`);
@@ -66,7 +66,7 @@ function run(cmd) {
   );
 
   console.log("  Re-transcribing trimmed audio…");
-  const trimmed = await transcribeAudio(trimmedWav);
+  const trimmed = await transcribeAudio(trimmedWav, topic);
   fs.writeFileSync(path.join(OUTPUT_DIR, "transcript-trimmed.json"), JSON.stringify(trimmed, null, 2));
 
   // ── Step 4: plan scenes ────────────────────────────────────────────────────

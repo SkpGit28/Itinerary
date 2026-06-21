@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0A0808;font-family:-apple-system,"Inter",sans-serif}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M0 200 Q50 150 100 200 Q150 250 200 200 Q250 150 300 200 Q350 250 400 200' fill='none' stroke='%23362A22' stroke-width='1'/%3E%3Cpath d='M0 250 Q50 200 100 250 Q150 300 200 250 Q250 200 300 250 Q350 300 400 250' fill='none' stroke='%23362A22' stroke-width='1'/%3E%3C/svg%3E");opacity:0.35;pointer-events:none;z-index:0}
+#stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:40px}
+#counter{font-size:180px;font-weight:900;color:#D97757;letter-spacing:-6px;line-height:1;opacity:0}
+#unit{font-size:60px;font-weight:700;color:#EDD9BC;opacity:0;margin-top:-20px}
+#subtitle{font-size:38px;color:#EDD9BC;opacity:0.6;letter-spacing:2px;text-transform:uppercase;font-weight:500;opacity:0}
+.ring{position:absolute;border-radius:50%;border:2px solid #D97757;opacity:0}
+#r1{width:600px;height:600px;border-color:#D97757}
+#r2{width:750px;height:750px;border-color:#362A22}
+#r3{width:900px;height:900px;border-color:#362A22}
+</style>
+</head>
+<body>
+<div class="ring" id="r3"></div>
+<div class="ring" id="r2"></div>
+<div class="ring" id="r1"></div>
+<div id="stage">
+  <div id="counter">0</div>
+  <div id="unit">%</div>
+  <div id="subtitle">AI Adoption Rate</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const tl = gsap.timeline();
+
+tl.fromTo("#r3",{opacity:0,scale:0.5},{opacity:0.15,scale:1,duration:1,ease:"power2.out"})
+  .fromTo("#r2",{opacity:0,scale:0.5},{opacity:0.25,scale:1,duration:0.8,ease:"power2.out"},0.2)
+  .fromTo("#r1",{opacity:0,scale:0.5},{opacity:0.4,scale:1,duration:0.6,ease:"power2.out"},0.4)
+  .fromTo("#counter",{opacity:0,y:40,scale:0.8},{opacity:1,y:0,scale:1,duration:0.7,ease:"back.out(1.4)"},0.5)
+  .fromTo("#unit",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},0.9)
+  .fromTo("#subtitle",{opacity:0,y:20},{opacity:0.7,y:0,duration:0.5},1.0);
+
+const obj = {val:0};
+gsap.to(obj, {
+  val: 78,
+  duration: 2,
+  delay: 0.6,
+  ease: "power2.out",
+  onUpdate() {
+    document.getElementById("counter").textContent = Math.round(obj.val);
+  }
+});
+
+gsap.to("#r1",{rotation:360,duration:20,repeat:-1,ease:"none"});
+gsap.to("#r2",{rotation:-360,duration:30,repeat:-1,ease:"none"});
+</script>
+</body>
+</html>

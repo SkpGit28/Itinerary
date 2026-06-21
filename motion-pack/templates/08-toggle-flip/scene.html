@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0A0808;font-family:-apple-system,"Inter",sans-serif}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M0 200 Q50 150 100 200 Q150 250 200 200 Q250 150 300 200 Q350 250 400 200' fill='none' stroke='%23362A22' stroke-width='1'/%3E%3C/svg%3E");opacity:0.35;pointer-events:none;z-index:0}
+#stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 100px;gap:80px}
+.row{display:flex;align-items:center;justify-content:space-between;width:100%;opacity:0}
+.label{font-size:40px;font-weight:600;color:#EDD9BC}
+.track{width:140px;height:74px;border-radius:37px;position:relative;cursor:pointer;flex-shrink:0}
+.track.off{background:#1E1717;border:2px solid #362A22}
+.track.on{background:#4CD964}
+.knob{position:absolute;top:8px;width:58px;height:58px;border-radius:50%;background:#EDD9BC;transition:left 0.3s}
+.track.off .knob{left:8px}
+.track.on .knob{left:74px}
+#heading{font-size:54px;font-weight:800;color:#EDD9BC;text-align:center;opacity:0;letter-spacing:-1px}
+#sub{font-size:28px;color:#D97757;letter-spacing:4px;text-transform:uppercase;font-weight:500;opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="sub">AI Features</div>
+  <div id="heading">Enable Everything</div>
+  <div class="row" id="r1"><span class="label">Smart Suggestions</span><div class="track off"><div class="knob"></div></div></div>
+  <div class="row" id="r2"><span class="label">Auto-Complete</span><div class="track off"><div class="knob"></div></div></div>
+  <div class="row" id="r3"><span class="label">AI Assistant</span><div class="track off"><div class="knob"></div></div></div>
+  <div class="row" id="r4"><span class="label">Neural Search</span><div class="track off"><div class="knob"></div></div></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const tl = gsap.timeline();
+tl.fromTo("#sub",{opacity:0,y:20},{opacity:1,y:0,duration:0.4})
+  .fromTo("#heading",{opacity:0,y:30},{opacity:1,y:0,duration:0.5},0.2);
+[1,2,3,4].forEach((n,i) => {
+  tl.fromTo(`#r${n}`,{opacity:0,x:-40},{opacity:1,x:0,duration:0.4,ease:"power2.out"},0.6+i*0.2);
+  const track = document.querySelector(`#r${n} .track`);
+  const delay = 1.2 + i * 0.3;
+  tl.add(() => {
+    track.classList.remove("off");
+    track.classList.add("on");
+  }, delay);
+});
+</script>
+</body>
+</html>

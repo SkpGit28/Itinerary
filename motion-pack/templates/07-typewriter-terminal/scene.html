@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0A0808;font-family:"JetBrains Mono",ui-monospace,monospace}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M0 200 Q50 150 100 200 Q150 250 200 200 Q250 150 300 200 Q350 250 400 200' fill='none' stroke='%23362A22' stroke-width='1'/%3E%3C/svg%3E");opacity:0.35;pointer-events:none;z-index:0}
+#terminal{position:relative;z-index:1;margin:240px 60px;background:#0D0B0B;border:1px solid #362A22;border-radius:16px;padding:40px;opacity:0}
+.title-bar{display:flex;align-items:center;gap:10px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #362A22}
+.dot{width:14px;height:14px;border-radius:50%}
+.d1{background:#FF5F57}.d2{background:#FEBC2E}.d3{background:#28C840}
+.title-text{color:#EDD9BC;opacity:0.4;font-size:24px;margin-left:auto}
+.line{display:flex;gap:12px;margin-bottom:16px;font-size:30px;line-height:1.5;min-height:44px}
+.prompt{color:#D97757;font-weight:700}
+.cmd{color:#EDD9BC}
+.out{color:#4CD964;padding-left:44px}
+.cursor{display:inline-block;width:3px;height:34px;background:#D97757;vertical-align:middle;margin-left:4px}
+</style>
+</head>
+<body>
+<div id="terminal">
+  <div class="title-bar">
+    <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+    <span class="title-text">ai-terminal</span>
+  </div>
+  <div class="line"><span class="prompt">▶</span><span class="cmd" id="cmd1"></span><span class="cursor" id="c1"></span></div>
+  <div class="line"><span class="out" id="out1"></span></div>
+  <div class="line"><span class="prompt">▶</span><span class="cmd" id="cmd2"></span><span class="cursor" id="c2" style="display:none"></span></div>
+  <div class="line"><span class="out" id="out2"></span></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+function typeText(el, text, delay, speed) {
+  let i = 0;
+  return gsap.to({}, {
+    duration: text.length * speed,
+    delay,
+    onUpdate() {
+      const progress = this.progress();
+      const chars = Math.floor(progress * text.length);
+      if (chars !== i) {
+        i = chars;
+        el.textContent = text.slice(0, i);
+      }
+    }
+  });
+}
+
+const tl = gsap.timeline();
+tl.fromTo("#terminal",{opacity:0,y:40},{opacity:1,y:0,duration:0.6,ease:"power2.out"});
+
+const cmds = [
+  {cmd: "ai --status latest-models", out: "GPT-5 · Gemini 2.5 · Claude 4 ↑"},
+  {cmd: "fetch --ai-news --today",   out: "3 breaking stories loaded ✓"},
+];
+
+let t = 0.8;
+cmds.forEach(({cmd, out}, idx) => {
+  const cmdEl = document.getElementById(`cmd${idx+1}`);
+  const outEl = document.getElementById(`out${idx+1}`);
+  const cursor = document.getElementById(`c${idx+1}`);
+  if (idx > 0 && document.getElementById(`c${idx}`) ) {
+    tl.set(`#c${idx}`, {display:"none"}, t - 0.05);
+  }
+  tl.set(cursor, {display:"inline-block"}, t);
+  cmds.forEach(() => {});
+  typeText(cmdEl, cmd, t, 0.05);
+  t += cmd.length * 0.05 + 0.3;
+  tl.add(() => { outEl.textContent = out; }, t);
+  t += 0.8;
+});
+
+gsap.to("#c2", {opacity:0, repeat:-1, yoyo:true, duration:0.5, delay:t});
+</script>
+</body>
+</html>
