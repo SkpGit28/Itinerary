@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{
+    width:1280px;height:720px;overflow:hidden;
+    background:#080808;
+    font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Vignette + background */
+  #bg{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(180,0,0,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, #0e0e0e 0%, #080808 100%);
+  }
+
+  /* Grid SVG */
+  #grid{position:absolute;top:0;left:0;pointer-events:none;}
+
+  /* ─── Title area ─── */
+  #title{
+    position:absolute;top:36px;left:88px;
+    font-size:42px;font-weight:800;color:#fff;letter-spacing:-.03em;
+    clip-path:inset(0 100% 0 0);
+  }
+  #subtitle{
+    position:absolute;top:85px;left:88px;
+    font-size:20px;font-weight:400;color:rgba(255,255,255,.35);
+    letter-spacing:.02em;opacity:0;
+  }
+
+  /* YouTube pill */
+  #ytpill{
+    position:absolute;top:36px;right:88px;
+    display:flex;align-items:center;gap:10px;
+    background:rgba(255,0,0,.12);
+    border:1px solid rgba(255,0,0,.3);
+    border-radius:100px;padding:10px 22px;
+    opacity:0;
+  }
+  .yt-icon{width:36px;height:25px;background:#FF0000;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .yt-tri{width:0;height:0;border-top:6px solid transparent;
+    border-bottom:6px solid transparent;border-left:11px solid white;margin-left:2px;}
+  .yt-text{font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em;}
+
+  /* ─── Bar wrappers ─── */
+  .bw{
+    position:absolute;bottom:80px;
+    width:108px;
+    height:510px;  /* max bar height */
+  }
+
+  /* Wide ambient glow (behind bar) */
+  .bg2{
+    position:absolute;bottom:0;
+    left:-28px;right:-28px;
+    border-radius:10px 10px 0 0;
+    background:#FF0000;
+    filter:blur(40px);
+    opacity:0;
+    transform:scaleY(0);
+    transform-origin:50% 100%;
+  }
+  /* Tight glow (just around bar) */
+  .bg1{
+    position:absolute;bottom:0;
+    left:-10px;right:-10px;
+    border-radius:8px 8px 0 0;
+    background:#FF2020;
+    filter:blur(12px);
+    opacity:0;
+    transform:scaleY(0);
+    transform-origin:50% 100%;
+  }
+  /* Actual bar */
+  .bf{
+    position:absolute;bottom:0;left:0;right:0;
+    border-radius:6px 6px 0 0;
+    background:linear-gradient(180deg,
+      #FF6060 0%,
+      #FF2020 20%,
+      #DD0000 70%,
+      #AA0000 100%);
+    transform:scaleY(0);
+    transform-origin:50% 100%;
+    overflow:hidden;
+  }
+  /* Shine strip at top of bar */
+  .bf::after{
+    content:'';
+    position:absolute;top:0;left:0;right:0;height:8px;
+    background:rgba(255,200,200,.5);
+    border-radius:6px 6px 0 0;
+  }
+  /* Horizontal sheen sweeping up */
+  .sheen{
+    position:absolute;bottom:0;left:0;right:0;
+    height:100%;
+    background:linear-gradient(180deg,
+      rgba(255,255,255,.15) 0%,
+      transparent 50%);
+    transform:translateY(100%);
+    opacity:0;
+  }
+
+  /* Live value counter */
+  .bval{
+    position:absolute;left:0;right:0;
+    text-align:center;
+    font-size:22px;font-weight:800;color:#fff;
+    letter-spacing:-.02em;
+    text-shadow:0 0 16px rgba(255,60,60,.9);
+    opacity:0;
+  }
+
+  /* Month label */
+  .bmonth{
+    position:absolute;bottom:-46px;left:0;right:0;
+    text-align:center;
+    font-size:19px;font-weight:500;
+    color:rgba(255,255,255,.4);
+    letter-spacing:.07em;
+    opacity:0;
+  }
+
+  /* ─── Big counter ─── */
+  #bigcount{
+    position:absolute;
+    right:88px;bottom:108px;
+    text-align:right;opacity:0;
+  }
+  #bigcount .bc-num{
+    font-size:88px;font-weight:900;color:#FF1A1A;
+    letter-spacing:-.05em;line-height:1;
+    text-shadow:0 0 60px rgba(255,0,0,.7),0 0 20px rgba(255,0,0,1);
+  }
+  #bigcount .bc-label{
+    font-size:20px;font-weight:400;
+    color:rgba(255,255,255,.4);
+    letter-spacing:.1em;text-transform:uppercase;
+    margin-top:8px;
+  }
+
+  /* Final line connecting bar tops */
+  #trendline{position:absolute;pointer-events:none;opacity:0;}
+</style>
+</head><body>
+
+<div id="bg"></div>
+
+<!-- Grid -->
+<svg id="grid" width="1280" height="720">
+  <!-- Axis -->
+  <line x1="80" y1="640" x2="1210" y2="640"
+        stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+  <!-- Horizontals -->
+  <line x1="80" y1="513" x2="1210" y2="513"
+        stroke="rgba(255,40,40,.08)" stroke-width="1" stroke-dasharray="6 8" class="gh"/>
+  <line x1="80" y1="386" x2="1210" y2="386"
+        stroke="rgba(255,40,40,.08)" stroke-width="1" stroke-dasharray="6 8" class="gh"/>
+  <line x1="80" y1="259" x2="1210" y2="259"
+        stroke="rgba(255,40,40,.08)" stroke-width="1" stroke-dasharray="6 8" class="gh"/>
+  <line x1="80" y1="130" x2="1210" y2="130"
+        stroke="rgba(255,40,40,.08)" stroke-width="1" stroke-dasharray="6 8" class="gh"/>
+  <!-- Y labels -->
+  <text x="70" y="644" text-anchor="end" fill="rgba(255,255,255,.22)" font-size="17" font-family="Inter,sans-serif">0</text>
+  <text x="70" y="517" text-anchor="end" fill="rgba(255,255,255,.22)" font-size="17" font-family="Inter,sans-serif">50K</text>
+  <text x="70" y="390" text-anchor="end" fill="rgba(255,255,255,.22)" font-size="17" font-family="Inter,sans-serif">100K</text>
+  <text x="70" y="263" text-anchor="end" fill="rgba(255,255,255,.22)" font-size="17" font-family="Inter,sans-serif">150K</text>
+  <text x="70" y="134" text-anchor="end" fill="rgba(255,255,255,.22)" font-size="17" font-family="Inter,sans-serif">200K</text>
+</svg>
+
+<div id="title">Subscriber Growth</div>
+<div id="subtitle">Monthly Channel Analytics · 2024</div>
+
+<div id="ytpill">
+  <div class="yt-icon"><div class="yt-tri"></div></div>
+  <span class="yt-text">YouTube</span>
+</div>
+
+<!--
+  8 bars. Bar width=108px, gap=48px → step=156px
+  Start left = 88px
+  Heights (max=510 at 289K, y-max=200K so scale=510/200K * val):
+    12K → 30.6≈31    24K→61   41K→105   67K→171
+    98K→250          143K→365  201K→512≈510  289K→510(capped, adjusted scale)
+
+  Let me use max bar = largest val = 289K → 510px
+  scale = 510/289 px per K
+
+  12K:  12/289*510 =  21px
+  24K:  24/289*510 =  42px
+  41K:  41/289*510 =  72px
+  67K:  67/289*510 = 118px
+  98K:  98/289*510 = 173px
+  143K: 143/289*510 = 252px
+  201K: 201/289*510 = 355px
+  289K: 289/289*510 = 510px
+-->
+
+<!-- Bar 1: left=88, h=21, val=12K -->
+<div class="bw" id="b1" style="left:88px">
+  <div class="bg2" style="height:21px"></div>
+  <div class="bg1" style="height:21px"></div>
+  <div class="bf"  style="height:21px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:35px">0</div>
+  <div class="bmonth">JAN</div>
+</div>
+
+<!-- Bar 2: left=244, h=42 -->
+<div class="bw" id="b2" style="left:244px">
+  <div class="bg2" style="height:42px"></div>
+  <div class="bg1" style="height:42px"></div>
+  <div class="bf"  style="height:42px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:56px">0</div>
+  <div class="bmonth">FEB</div>
+</div>
+
+<!-- Bar 3: left=400, h=72 -->
+<div class="bw" id="b3" style="left:400px">
+  <div class="bg2" style="height:72px"></div>
+  <div class="bg1" style="height:72px"></div>
+  <div class="bf"  style="height:72px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:86px">0</div>
+  <div class="bmonth">MAR</div>
+</div>
+
+<!-- Bar 4: left=556, h=118 -->
+<div class="bw" id="b4" style="left:556px">
+  <div class="bg2" style="height:118px"></div>
+  <div class="bg1" style="height:118px"></div>
+  <div class="bf"  style="height:118px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:132px">0</div>
+  <div class="bmonth">APR</div>
+</div>
+
+<!-- Bar 5: left=712, h=173 -->
+<div class="bw" id="b5" style="left:712px">
+  <div class="bg2" style="height:173px"></div>
+  <div class="bg1" style="height:173px"></div>
+  <div class="bf"  style="height:173px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:187px">0</div>
+  <div class="bmonth">MAY</div>
+</div>
+
+<!-- Bar 6: left=868, h=252 -->
+<div class="bw" id="b6" style="left:868px">
+  <div class="bg2" style="height:252px"></div>
+  <div class="bg1" style="height:252px"></div>
+  <div class="bf"  style="height:252px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:266px">0</div>
+  <div class="bmonth">JUN</div>
+</div>
+
+<!-- Bar 7: left=1024, h=355 -->
+<div class="bw" id="b7" style="left:1024px">
+  <div class="bg2" style="height:355px"></div>
+  <div class="bg1" style="height:355px"></div>
+  <div class="bf"  style="height:355px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:369px">0</div>
+  <div class="bmonth">JUL</div>
+</div>
+
+<!-- Bar 8: left=1180 — but 1180+108=1288 > 1280, shift to 1164 — actually 88+7*156=88+1092=1180 ok, right edge=1288 — trim to 100px wide -->
+<div class="bw" id="b8" style="left:1165px;width:95px">
+  <div class="bg2" style="height:510px"></div>
+  <div class="bg1" style="height:510px"></div>
+  <div class="bf"  style="height:510px"><div class="sheen"></div></div>
+  <div class="bval" style="bottom:524px">0</div>
+  <div class="bmonth">AUG</div>
+</div>
+
+<!-- Big counter -->
+<div id="bigcount">
+  <div class="bc-num" id="bc-num">0K</div>
+  <div class="bc-label">Total Subscribers</div>
+</div>
+
+<script>
+(function(){
+  if(!window.gsap) return;
+
+  /* Data */
+  var bars = [
+    { id:"b1", final:12,  label:"12K"  },
+    { id:"b2", final:24,  label:"24K"  },
+    { id:"b3", final:41,  label:"41K"  },
+    { id:"b4", final:67,  label:"67K"  },
+    { id:"b5", final:98,  label:"98K"  },
+    { id:"b6", final:143, label:"143K" },
+    { id:"b7", final:201, label:"201K" },
+    { id:"b8", final:289, label:"289K" },
+  ];
+
+  function fmt(n){ return n >= 1000 ? Math.round(n/1000*10)/10 + "K" : n+""; }
+
+  var tl = gsap.timeline();
+
+  /* ── Header ── */
+  tl.to("#title",    {clipPath:"inset(0 0% 0 0)",duration:.75,ease:"power3.inOut"},0.15);
+  tl.to("#subtitle", {opacity:1,duration:.45,ease:"power2.out"},0.65);
+  tl.to("#ytpill",   {opacity:1,y:0,duration:.45,ease:"power2.out"},0.65);
+
+  /* ── Grid lines ── */
+  tl.fromTo(".gh",{opacity:0,scaleX:0,transformOrigin:"0 50%"},
+    {opacity:1,scaleX:1,duration:.5,stagger:.08,ease:"power2.out"},0.2);
+
+  /* ── Bars one by one ── */
+  bars.forEach(function(b, i){
+    var t  = 0.8 + i * 0.42;
+    var el = document.getElementById(b.id);
+    var valEl = el.querySelector(".bval");
+    var glowStr = 0.3 + (i/7) * 0.6;   // glow scales with bar size
+
+    /* Month label first */
+    tl.to("#"+b.id+" .bmonth", {opacity:1,duration:.2}, t);
+
+    /* Live counter starts ticking */
+    var counter = {v:0};
+    tl.to(counter, {
+      v: b.final, duration:.6, ease:"power2.out",
+      onUpdate: function(){
+        valEl.textContent = Math.round(counter.v) + "K";
+      },
+      onStart: function(){
+        valEl.style.opacity = "1";
+      }
+    }, t);
+
+    /* Bar grows */
+    tl.to("#"+b.id+" .bf",  {scaleY:1,duration:.6,ease:"power3.out"}, t);
+
+    /* Glow layers — tight then wide */
+    tl.to("#"+b.id+" .bg1", {scaleY:1,opacity: Math.min(0.5+glowStr*0.3, 0.85),
+      duration:.55,ease:"power2.out"}, t);
+    tl.to("#"+b.id+" .bg2", {scaleY:1,opacity: Math.min(0.2+glowStr*0.25, 0.55),
+      duration:.6,ease:"power1.out"}, t+.05);
+
+    /* Sheen sweeps up at peak */
+    tl.to("#"+b.id+" .sheen", {opacity:1,y:"-100%",duration:.35,ease:"power2.in"}, t+.5);
+    tl.to("#"+b.id+" .sheen", {opacity:0,duration:.15}, t+.85);
+
+    /* Impact flash on landing — tight glow pulses up then back */
+    tl.to("#"+b.id+" .bg1", {
+      opacity: Math.min(glowStr + 0.3, 1),
+      scaleX: 1.3,
+      duration:.18, ease:"power2.out", yoyo:true, repeat:1
+    }, t+.58);
+  });
+
+  /* ── All bars lit — collective breathe ── */
+  var allDone = 0.8 + 7*0.42 + 0.7;
+  tl.to(".bg2",{opacity:"+=.12",duration:.5,ease:"sine.inOut",yoyo:true,repeat:1}, allDone);
+
+  /* ── Big counter slides in ── */
+  var bcObj = {v:0};
+  tl.to("#bigcount",{opacity:1,y:0,duration:.55,ease:"power3.out"}, allDone+.1);
+  tl.to(bcObj,{
+    v:289, duration:1.2, ease:"power2.out",
+    onUpdate:function(){
+      document.getElementById("bc-num").textContent = Math.round(bcObj.v)+"K";
+    }
+  }, allDone+.1);
+
+  /* ── Final glow pulse on tallest bar ── */
+  tl.to("#b8 .bg2",{opacity:.85,scale:1.25,duration:.35,ease:"power2.out",yoyo:true,repeat:1}, allDone+1.5);
+  tl.to("#b8 .bg1",{opacity:1,duration:.3,ease:"power2.out",yoyo:true,repeat:1}, allDone+1.5);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["sub-chart-v2"] = tl;
+})();
+</script>
+</body></html>
