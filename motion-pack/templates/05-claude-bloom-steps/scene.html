@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  /* Transparent background — overlay only */
+  html, body {
+    margin: 0; padding: 0;
+    width: 1080px; height: 1920px;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, "Inter", "SF Pro Display", sans-serif;
+  }
+
+  /* === WASTEBASKET (bottom-center, lower half) === */
+  .basket {
+    position: absolute;
+    left: 360px; top: 1280px;
+    width: 360px; height: 380px;
+    z-index: 4;
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  .basket svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45)); }
+
+  /* === APP LOGOS (initial position off-screen left, mid-lower) === */
+  .logo {
+    position: absolute;
+    width: 220px; height: 220px;
+    z-index: 6;
+    left: -260px;
+    top: 1000px;
+    opacity: 0;
+  }
+  .logo img {
+    width: 100%; height: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: 44px;
+    filter: drop-shadow(0 18px 36px rgba(0,0,0,0.55));
+  }
+
+  /* === CLAUDE CODE REVEAL — pushed down to clear face === */
+  .claude-stage {
+    position: absolute;
+    left: 0; right: 0;
+    top: 1240px;       /* below his chin */
+    height: 420px;
+    display: flex; flex-direction: column; align-items: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .starburst-wrap {
+    position: relative;
+    width: 200px; height: 200px;
+    margin-bottom: 14px;
+    opacity: 0;
+  }
+  .starburst-rays {
+    position: absolute; inset: -70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217,119,87,0.65) 0%, rgba(217,119,87,0.2) 30%, transparent 65%);
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .starburst {
+    position: absolute; inset: 0;
+    z-index: 2;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(217,119,87,0.55), 0 16px 30px rgba(0,0,0,0.5);
+  }
+  .starburst img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+  .claude-text {
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    font-size: 50px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -1px;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.7), 0 0 30px rgba(217,119,87,0.45);
+    opacity: 0;
+  }
+  .claude-text .accent { color: #D97757; }
+
+  /* === STEPS === */
+  .steps {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+    opacity: 0;
+  }
+  .step-chip {
+    background: rgba(22,19,19,0.92);
+    border: 2px solid #D97757;
+    border-radius: 14px;
+    padding: 10px 18px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 26px;
+    font-weight: 900;
+    color: #EDD9BC;
+    letter-spacing: 1px;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .step-chip .num { color: #D97757; margin-right: 8px; }
+</style>
+</head><body>
+
+<!-- WASTEBASKET -->
+<div class="basket" id="basket">
+  <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+    <!-- Lid -->
+    <g id="lid">
+      <rect x="20" y="34" width="160" height="18" rx="6" fill="#4A4640"/>
+      <rect x="78" y="20" width="44" height="18" rx="4" fill="#5A5650"/>
+    </g>
+    <!-- Bin body (trapezoid) -->
+    <path d="M 32 60 L 168 60 L 158 210 L 42 210 Z" fill="#76706A"/>
+    <!-- Highlight -->
+    <path d="M 32 60 L 168 60 L 158 210 L 42 210 Z" fill="url(#binShade)" opacity="0.6"/>
+    <defs>
+      <linearGradient id="binShade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+        <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0.25)"/>
+      </linearGradient>
+    </defs>
+    <!-- Vertical ribs -->
+    <g stroke="#5A5650" stroke-width="3" opacity="0.55">
+      <line x1="68" y1="68" x2="62" y2="200"/>
+      <line x1="100" y1="68" x2="100" y2="200"/>
+      <line x1="132" y1="68" x2="138" y2="200"/>
+    </g>
+    <!-- Top opening (dark) -->
+    <ellipse cx="100" cy="60" rx="68" ry="10" fill="#1A1815"/>
+  </svg>
+</div>
+
+<!-- LOGO: CapCut (real App Store icon) -->
+<div class="logo" id="logo-capcut">
+  <img src="logos/capcut.png" alt="CapCut">
+</div>
+
+<!-- LOGO: After Effects (real Adobe icon) -->
+<div class="logo" id="logo-ae">
+  <img src="logos/aftereffects.png" alt="After Effects">
+</div>
+
+<!-- LOGO: Premiere Pro (real Adobe icon) -->
+<div class="logo" id="logo-pr">
+  <img src="logos/premiere.png" alt="Premiere Pro">
+</div>
+
+<!-- CLAUDE CODE REVEAL STAGE -->
+<div class="claude-stage">
+  <div class="starburst-wrap" id="starburstWrap">
+    <div class="starburst-rays" id="rays"></div>
+    <div class="starburst" id="starburst">
+      <img src="logos/claude.png" alt="Claude">
+    </div>
+  </div>
+  <div class="claude-text" id="claudeText">Claude <span class="accent">Code</span></div>
+  <div class="steps" id="steps">
+    <div class="step-chip"><span class="num">01</span><span>HyperFrames</span></div>
+    <div class="step-chip"><span class="num">02</span><span>Remotion</span></div>
+    <div class="step-chip"><span class="num">03</span><span>Ship</span></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const tl = gsap.timeline();
+
+  // === 0.0-1.6s "You no longer need" — wastebasket slides up into view ===
+  tl.to("#basket", {
+    opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.4)"
+  }, 0.6);
+
+  // Helper: launch a logo from off-screen-left, arc up and down into basket
+  function trashLogo(id, startTime, color) {
+    // Arc trajectory: start (-260, 1000) → peak (200, 850) → land in basket (~540, 1380, scaled small)
+    // Logo scale goes from 1 → 0.4 as it lands in the basket
+    tl.set(id, { left: -260, top: 1000, opacity: 0, rotation: 0, scale: 1 });
+    tl.to(id, { opacity: 1, duration: 0.1 }, startTime);
+    // Travel + spin + shrink
+    tl.to(id, {
+      left: 200, top: 850,
+      rotation: 360,
+      duration: 0.32,
+      ease: "power2.out"
+    }, startTime);
+    tl.to(id, {
+      left: 460, top: 1240,
+      rotation: 720,
+      scale: 0.45,
+      duration: 0.34,
+      ease: "power2.in"
+    }, startTime + 0.32);
+    // Land — quick fade so it "disappears into the basket"
+    tl.to(id, { opacity: 0, scale: 0.3, duration: 0.12 }, startTime + 0.62);
+
+    // Basket reacts (shake + scale punch)
+    tl.to("#basket", {
+      scale: 1.06, duration: 0.08, ease: "power2.out",
+      transformOrigin: "center bottom"
+    }, startTime + 0.6);
+    tl.to("#basket", { scale: 1, duration: 0.18, ease: "elastic.out(1, 0.4)" }, startTime + 0.68);
+  }
+
+  // 1.60s: CapCut
+  trashLogo("#logo-capcut", 1.60);
+  // 2.44s: After Effects
+  trashLogo("#logo-ae", 2.44);
+  // 3.56s: Premiere Pro
+  trashLogo("#logo-pr", 3.56);
+
+  // === 4.72-6.50s "to get motion graphics like these" — basket sits there, subtle steam/wobble ===
+  tl.to("#basket", {
+    rotation: -3, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut",
+    transformOrigin: "center bottom"
+  }, 4.7);
+
+  // === 6.50-7.88s — basket sweeps OUT (down + fade) preparing for Claude reveal ===
+  tl.to("#basket", {
+    y: 200, opacity: 0, duration: 0.6, ease: "power2.in"
+  }, 6.7);
+
+  // === 7.88-8.52s "cloud code" — Claude starburst BLOOM ===
+  // Rays expand outward
+  tl.fromTo("#rays",
+    { opacity: 0, scale: 0.4 },
+    { opacity: 1, scale: 1.4, duration: 0.6, ease: "power2.out" },
+    7.85
+  );
+  // Starburst pops in with rotation + scale
+  tl.fromTo("#starburstWrap",
+    { opacity: 0, scale: 0.3, rotation: -45 },
+    { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: "back.out(1.8)" },
+    7.85
+  );
+  // Wordmark fades in
+  tl.fromTo("#claudeText",
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+    8.15
+  );
+  // Rays settle (pulse)
+  tl.to("#rays", { scale: 1.2, opacity: 0.7, duration: 0.7, yoyo: true, repeat: -1, ease: "sine.inOut" }, 8.5);
+
+  // === 9.06-9.96s "and follow these steps" — step chips slide in ===
+  tl.to("#steps", { opacity: 1, duration: 0.1 }, 9.0);
+  tl.to(".step-chip", {
+    opacity: 1, y: 0, duration: 0.45,
+    stagger: 0.18,
+    ease: "back.out(1.5)"
+  }, 9.05);
+
+  // Hold final state through 10.94s
+  tl.to({}, { duration: 0.9 }, 10.0);
+</script>
+</body></html>

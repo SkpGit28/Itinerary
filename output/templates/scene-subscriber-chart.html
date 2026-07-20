@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;width:1280px;height:720px;
+    background:radial-gradient(ellipse at 50% 110%,#1c0404 0%,#0f0f0f 55%);
+    overflow:hidden;
+    font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;}
+
+  #title{position:absolute;top:38px;left:80px;
+    font-size:40px;font-weight:700;color:#fff;letter-spacing:-.025em;
+    clip-path:inset(0 100% 0 0);}
+
+  #subtitle{position:absolute;top:84px;left:80px;
+    font-size:22px;font-weight:400;color:rgba(255,255,255,.38);opacity:0;}
+
+  /* YouTube badge */
+  #ytbadge{position:absolute;top:38px;right:80px;
+    display:flex;align-items:center;gap:12px;opacity:0;}
+  .yt-box{width:54px;height:38px;background:#FF0000;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;}
+  .yt-play{width:0;height:0;border-top:9px solid transparent;
+    border-bottom:9px solid transparent;border-left:17px solid white;margin-left:3px;}
+  .yt-wordmark{font-size:30px;font-weight:700;color:#fff;letter-spacing:-.01em;}
+
+  /* Bar wrappers */
+  .bw{position:absolute;bottom:80px;width:90px;height:490px;}
+
+  .bglow{position:absolute;bottom:0;left:-14px;right:-14px;
+    border-radius:8px 8px 0 0;
+    background:#FF1A1A;filter:blur(18px);
+    opacity:0;transform:scaleY(0);transform-origin:50% 100%;}
+
+  .bfill{position:absolute;bottom:0;left:0;right:0;
+    border-radius:6px 6px 0 0;
+    background:linear-gradient(180deg,#FF5050 0%,#CC0000 80%,#990000 100%);
+    transform:scaleY(0);transform-origin:50% 100%;}
+
+  /* Top shine strip on bar */
+  .bshine{position:absolute;left:0;right:0;height:6px;border-radius:6px;
+    background:rgba(255,200,200,.55);opacity:0;}
+
+  .bval{position:absolute;left:0;right:0;text-align:center;
+    font-size:20px;font-weight:700;color:#fff;
+    text-shadow:0 0 12px rgba(255,40,40,.7);
+    opacity:0;transform:translateY(6px);}
+
+  /* Month labels below axis */
+  #mlabels{position:absolute;bottom:24px;left:0;right:0;}
+  .mlbl{position:absolute;bottom:0;
+    font-size:20px;font-weight:500;letter-spacing:.06em;
+    color:rgba(255,255,255,.42);text-align:center;
+    transform:translateX(-50%);opacity:0;}
+
+  /* Milestone counter */
+  #milestone{position:absolute;bottom:108px;right:80px;
+    text-align:right;opacity:0;}
+  .ms-num{font-size:78px;font-weight:900;color:#FF0000;
+    letter-spacing:-.04em;line-height:1;
+    text-shadow:0 0 50px rgba(255,0,0,.55),0 0 20px rgba(255,0,0,.8);}
+  .ms-lbl{font-size:22px;font-weight:400;letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:6px;}
+</style>
+</head><body>
+
+<!-- Grid SVG -->
+<svg style="position:absolute;top:0;left:0;pointer-events:none;" width="1280" height="720">
+  <!-- Axis line -->
+  <line x1="78" y1="640" x2="1200" y2="640" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+  <!-- Horizontal grid lines -->
+  <line x1="78" y1="485" x2="1200" y2="485" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="6 6" class="gh"/>
+  <line x1="78" y1="330" x2="1200" y2="330" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="6 6" class="gh"/>
+  <line x1="78" y1="175" x2="1200" y2="175" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="6 6" class="gh"/>
+  <!-- Y-axis labels -->
+  <text x="68" y="644" text-anchor="end" fill="rgba(255,255,255,.28)" font-size="18" font-family="Inter,sans-serif">0</text>
+  <text x="68" y="489" text-anchor="end" fill="rgba(255,255,255,.28)" font-size="18" font-family="Inter,sans-serif">50K</text>
+  <text x="68" y="334" text-anchor="end" fill="rgba(255,255,255,.28)" font-size="18" font-family="Inter,sans-serif">100K</text>
+  <text x="68" y="179" text-anchor="end" fill="rgba(255,255,255,.28)" font-size="18" font-family="Inter,sans-serif">150K</text>
+</svg>
+
+<!-- Title -->
+<div id="title">Subscriber Growth</div>
+<div id="subtitle">Jan 2024 — Aug 2024</div>
+
+<!-- YouTube badge -->
+<div id="ytbadge">
+  <div class="yt-box"><div class="yt-play"></div></div>
+  <span class="yt-wordmark">YouTube</span>
+</div>
+
+<!-- Bars: left positions 102,243,384,525,666,807,948,1089 -->
+<!-- Heights: 25,48,87,142,221,307,409,490 -->
+<div class="bw" id="b1" style="left:102px">
+  <div class="bglow" style="height:25px"></div>
+  <div class="bfill" style="height:25px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:39px">8.2K</div>
+</div>
+<div class="bw" id="b2" style="left:243px">
+  <div class="bglow" style="height:48px"></div>
+  <div class="bfill" style="height:48px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:62px">15.4K</div>
+</div>
+<div class="bw" id="b3" style="left:384px">
+  <div class="bglow" style="height:87px"></div>
+  <div class="bfill" style="height:87px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:101px">28.1K</div>
+</div>
+<div class="bw" id="b4" style="left:525px">
+  <div class="bglow" style="height:142px"></div>
+  <div class="bfill" style="height:142px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:156px">45.7K</div>
+</div>
+<div class="bw" id="b5" style="left:666px">
+  <div class="bglow" style="height:221px"></div>
+  <div class="bfill" style="height:221px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:235px">71.3K</div>
+</div>
+<div class="bw" id="b6" style="left:807px">
+  <div class="bglow" style="height:307px"></div>
+  <div class="bfill" style="height:307px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:321px">98.9K</div>
+</div>
+<div class="bw" id="b7" style="left:948px">
+  <div class="bglow" style="height:409px"></div>
+  <div class="bfill" style="height:409px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:423px">132K</div>
+</div>
+<div class="bw" id="b8" style="left:1089px">
+  <div class="bglow" style="height:490px"></div>
+  <div class="bfill" style="height:490px">
+    <div class="bshine" style="top:0px"></div>
+  </div>
+  <div class="bval" style="bottom:504px">158K</div>
+</div>
+
+<!-- Month labels -->
+<div id="mlabels">
+  <span class="mlbl" style="left:147px">JAN</span>
+  <span class="mlbl" style="left:288px">FEB</span>
+  <span class="mlbl" style="left:429px">MAR</span>
+  <span class="mlbl" style="left:570px">APR</span>
+  <span class="mlbl" style="left:711px">MAY</span>
+  <span class="mlbl" style="left:852px">JUN</span>
+  <span class="mlbl" style="left:993px">JUL</span>
+  <span class="mlbl" style="left:1134px">AUG</span>
+</div>
+
+<!-- Milestone counter -->
+<div id="milestone">
+  <div class="ms-num" id="ms-num">0K</div>
+  <div class="ms-lbl">Subscribers</div>
+</div>
+
+<script>
+(function(){
+  if(!window.gsap) return;
+
+  var tl = gsap.timeline();
+
+  // ── Title & header ──
+  tl.to("#title",   {clipPath:"inset(0 0% 0 0)",duration:.7,ease:"power3.inOut"},0.1);
+  tl.to("#subtitle",{opacity:1,duration:.45,ease:"power2.out"},0.55);
+  tl.to("#ytbadge", {opacity:1,duration:.45,ease:"power2.out"},0.55);
+
+  // ── Grid lines ──
+  tl.fromTo(".gh",{opacity:0},{opacity:1,duration:.35,stagger:.08},0.2);
+
+  // ── Bars (stagger 0.38s apart) ──
+  var ids = ["b1","b2","b3","b4","b5","b6","b7","b8"];
+  ids.forEach(function(id, i){
+    var t = 0.7 + i * 0.38;
+    var glowPeak = (i+1)/8;  // glow intensity scales with bar height
+
+    // Fill grows from bottom
+    tl.to("#"+id+" .bfill",{scaleY:1,duration:.52,ease:"power3.out"},t);
+    // Glow grows simultaneously, proportional opacity
+    tl.to("#"+id+" .bglow",{scaleY:1,opacity: 0.4 + glowPeak*0.35,duration:.52,ease:"power2.out"},t);
+    // Shine strip flickers on at peak
+    tl.to("#"+id+" .bshine",{opacity:1,duration:.12,ease:"power2.out"},t+.40);
+    tl.to("#"+id+" .bshine",{opacity:0,duration:.3,ease:"power2.in"},t+.52);
+    // Value label pops in
+    tl.to("#"+id+" .bval",{opacity:1,y:0,duration:.28,ease:"back.out(1.8)"},t+.46);
+    // Month label fades in
+    tl.to(".mlbl:nth-child("+(i+1)+")",{opacity:1,duration:.25},t);
+  });
+
+  // ── Final bar special pulse (bar 8) ──
+  var b8t = 0.7 + 7*0.38 + 0.55;  // just after b8 finishes
+  tl.to("#b8 .bglow",{opacity:1,scale:1.15,duration:.25,ease:"power2.out",yoyo:true,repeat:1},b8t);
+  tl.to("#b8 .bfill",{brightness:1.2,duration:.2,ease:"power2.out",yoyo:true,repeat:1},b8t);
+
+  // ── All bars subtle pulse glow ── (at ~4.5s, all bars breathe)
+  tl.to(".bglow",{opacity:"+=0.15",duration:.4,ease:"sine.inOut",yoyo:true,repeat:1},4.5);
+
+  // ── Milestone counter slides in ──
+  tl.to("#milestone",{opacity:1,x:0,duration:.55,ease:"power3.out"},b8t+0.2);
+  var msObj = {v:0};
+  tl.to(msObj,{v:158,duration:1.1,ease:"power2.out",
+    onUpdate:function(){ document.getElementById("ms-num").textContent=Math.round(msObj.v)+"K"; }
+  },b8t+0.2);
+
+  // ── Hold & final glow ──
+  tl.to("#b8 .bglow",{opacity:0.95,duration:.6,ease:"sine.inOut",yoyo:true,repeat:1},6.0);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["subscriber-chart"] = tl;
+})();
+</script>
+</body></html>

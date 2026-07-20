@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 1080px; height: 1920px;
+    background: #0A0808;
+    overflow: hidden;
+    font-family: -apple-system, "Inter", "Segoe UI", sans-serif;
+  }
+  body::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(217,119,87,0.10) 0%, transparent 60%);
+  }
+  body::after {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 1920'><g fill='none' stroke='%23362A22' stroke-width='1.2' opacity='0.35'><path d='M -100,200 C 380,150 720,300 1080,250'/><path d='M -100,500 C 380,450 720,600 1080,550'/><path d='M -100,800 C 380,750 720,900 1080,850'/><path d='M -100,1100 C 380,1050 720,1200 1080,1150'/><path d='M -100,1400 C 380,1350 720,1500 1080,1450'/><path d='M -100,1700 C 380,1650 720,1800 1080,1750'/></g></svg>");
+  }
+
+  /* Waveform — vertically centered, full width */
+  .waveform {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 540px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 80px;
+    box-sizing: border-box;
+    gap: 6px;
+    z-index: 2;
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(180deg, #F4A88A 0%, #D97757 50%, #B68C5A 100%);
+    border-radius: 6px;
+    min-height: 12px;
+    box-shadow: 0 0 24px rgba(217,119,87,0.4);
+  }
+
+  /* Horizontal center axis line — subtle */
+  .axis {
+    position: absolute;
+    left: 80px; right: 80px;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(237,217,188,0.15) 20%, rgba(237,217,188,0.15) 80%, transparent 100%);
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+</style>
+</head><body>
+
+<div class="axis"></div>
+<div class="waveform" id="waveform"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  // Build waveform bars
+  const wf = document.getElementById("waveform");
+  const BAR_COUNT = 56;
+  const bars = [];
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const b = document.createElement("div");
+    b.className = "bar";
+    b.style.height = "12px";
+    b.style.opacity = "0";
+    wf.appendChild(b);
+    bars.push(b);
+  }
+
+  const tl = gsap.timeline();
+
+  // Bars fade-in stagger (build from center outward)
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const distFromCenter = Math.abs(i - BAR_COUNT / 2);
+    const delay = distFromCenter * 0.025;
+    tl.to(bars[i], { opacity: 1, duration: 0.35, ease: "power2.out" }, delay);
+  }
+
+  // Continuous "audio reactive" dance — procedural via sin waves
+  const wfState = { t: 0 };
+  tl.to(wfState, {
+    t: 3.0,
+    duration: 3.0,
+    ease: "none",
+    onUpdate: () => {
+      const t = wfState.t;
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const phase = i / BAR_COUNT;
+        // Multiple sin waves mixed for organic dance
+        const amp =
+          0.25 * Math.abs(Math.sin((t * 5 + phase * 10)))
+          + 0.35 * Math.abs(Math.sin((t * 9 + phase * 6) + phase * 2))
+          + 0.25 * Math.abs(Math.sin((t * 14 + phase * 3) + i * 0.4))
+          + 0.15 * Math.abs(Math.sin((t * 22 + phase * 18) + i * 0.7));
+        // Envelope so center bars peak higher (gives a more focal shape)
+        const distFromCenter = Math.abs(i - BAR_COUNT / 2) / (BAR_COUNT / 2);
+        const envelope = 1.0 - 0.3 * distFromCenter;
+        const height = 12 + amp * 460 * envelope;
+        bars[i].style.height = height + "px";
+      }
+    }
+  }, 0);
+</script>
+</body></html>

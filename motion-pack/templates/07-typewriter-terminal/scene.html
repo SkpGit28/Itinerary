@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 1080px; height: 1920px;
+    background: #0A0808;
+    overflow: hidden;
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+  }
+  .terminal {
+    position: absolute;
+    left: 60px; right: 60px; top: 50%;
+    transform: translateY(-50%);
+    background: #161313;
+    border: 2px solid rgba(237,217,188,0.12);
+    border-radius: 24px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    padding: 28px 32px 28px;
+    z-index: 2;
+  }
+  .titlebar {
+    display: flex; gap: 10px; padding-bottom: 22px;
+    border-bottom: 1px solid rgba(237,217,188,0.08);
+    margin-bottom: 24px;
+  }
+  .dot { width: 16px; height: 16px; border-radius: 50%; }
+  .dot.red { background: #FF5F57; } .dot.yellow { background: #FEBC2E; } .dot.green { background: #28C840; }
+  .title { margin-left: 14px; font-size: 18px; color: #B6AFA6; }
+
+  .line { font-size: 26px; line-height: 1.5; margin-bottom: 14px; color: #EDD9BC; opacity: 0; }
+  .line.prompt::before { content: "▶ "; color: #D97757; font-weight: 700; }
+  .line.out { color: #76706A; font-size: 22px; }
+  .line.success { color: #4CD964; }
+  .line.success::before { content: "✓ "; }
+  .caret { display: inline-block; width: 3px; height: 26px; background: #EDD9BC; margin-left: 4px; vertical-align: middle; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { to { opacity: 0; } }
+</style>
+</head><body>
+<div class="terminal">
+  <div class="titlebar">
+    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+    <span class="title">claude — ~/project</span>
+  </div>
+  <div class="line prompt" id="l1"><span id="t1"></span><span class="caret"></span></div>
+  <div class="line out" id="l2"><span id="t2"></span></div>
+  <div class="line out" id="l3"><span id="t3"></span></div>
+  <div class="line success" id="l4"><span id="t4"></span></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  function typed(id, str, dur, startAt) {
+    const el = document.getElementById(id);
+    const state = { n: 0 };
+    return gsap.to(state, {
+      n: str.length, duration: dur, ease: "none",
+      onUpdate: () => el.textContent = str.slice(0, Math.round(state.n))
+    });
+  }
+  const tl = gsap.timeline();
+  tl.to("#l1", { opacity: 1, duration: 0.2 }, 0);
+  tl.add(typed("t1", "claude build me a motion graphic", 1.4), 0.2);
+  tl.to("#l2", { opacity: 1, duration: 0.2 }, 1.8);
+  tl.add(typed("t2", "→ reading transcript...", 0.6), 1.9);
+  tl.to("#l3", { opacity: 1, duration: 0.2 }, 2.7);
+  tl.add(typed("t3", "→ rendering 90 frames...", 0.8), 2.8);
+  tl.to("#l4", { opacity: 1, duration: 0.2 }, 3.8);
+  tl.add(typed("t4", "Done. scene.mp4 ready.", 1.0), 3.9);
+  tl.to({}, { duration: 0.8 });
+</script>
+</body></html>

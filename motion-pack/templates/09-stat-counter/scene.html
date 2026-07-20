@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  html, body { margin:0; padding:0; width:1080px; height:1920px; background:#0A0808; overflow:hidden; font-family: -apple-system, "Inter", sans-serif; color: #EDD9BC; }
+  body::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 1920'><g fill='none' stroke='%23362A22' stroke-width='1.2' opacity='0.4'><path d='M -100,200 C 380,150 720,300 1080,250'/><path d='M -100,500 C 380,450 720,600 1080,550'/><path d='M -100,800 C 380,750 720,900 1080,850'/><path d='M -100,1100 C 380,1050 720,1200 1080,1150'/><path d='M -100,1400 C 380,1350 720,1500 1080,1450'/><path d='M -100,1700 C 380,1650 720,1800 1080,1750'/></g></svg>");
+  }
+  .center {
+    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 30px; color: #B68C5A; font-weight: 700;
+    letter-spacing: 6px; text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .stat {
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    font-size: 320px; font-weight: 900; color: #FFFFFF;
+    line-height: 1; letter-spacing: -8px;
+    text-shadow: 0 8px 28px rgba(217,119,87,0.35);
+  }
+  .stat .unit { color: #D97757; font-size: 140px; }
+  .sub {
+    font-size: 32px; color: #EDD9BC; opacity: 0.85;
+    margin-top: 30px;
+    font-weight: 500;
+  }
+</style>
+</head><body>
+<div class="center">
+  <div class="eyebrow">Render Time</div>
+  <div class="stat"><span id="num">0</span><span class="unit">s</span></div>
+  <div class="sub">90 frames · 1080×1920 · zero edits</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const state = { n: 0 };
+  gsap.timeline()
+    .to(state, {
+      n: 12, duration: 1.8, ease: "power3.out",
+      onUpdate: () => document.getElementById("num").textContent = Math.round(state.n)
+    }, 0.4)
+    .to(".stat", { scale: 1.08, duration: 0.35, yoyo: true, repeat: 1, ease: "sine.inOut" }, 2.2)
+    .to({}, { duration: 0.8 });
+</script>
+</body></html>
