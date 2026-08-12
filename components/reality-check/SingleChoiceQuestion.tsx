@@ -8,7 +8,7 @@ import type { QuestionInputProps } from './YesNoQuestion'
 
 /**
  * Radio cards for a list of mutually exclusive options that are too long or
- * too numerous for a segmented row. Never a dropdown — the spec calls for
+ * too numerous for a segmented row. Never a dropdown, the spec calls for
  * options that are visible and directly tappable.
  */
 export function SingleChoiceQuestion({

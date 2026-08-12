@@ -14,20 +14,20 @@ interface QuestionNavigationProps {
 }
 
 /**
- * Sticky bottom bar. The Next button is never disabled — pressing it with
+ * Sticky bottom bar. The Next button is never disabled, pressing it with
  * something missing explains what is missing instead of going quiet.
  */
 export function QuestionNavigation({
   onBack,
   onNext,
-  backLabel = 'Back',
+  backLabel = 'Peeche',
   nextLabel,
   positionLabel,
   hideBack,
 }: QuestionNavigationProps) {
   return (
     <nav
-      aria-label="Questionnaire navigation"
+      aria-label="Aage peeche jaane ke buttons"
       className="z-30 border-t border-[var(--rc-border)] bg-[var(--rc-bg)]"
     >
       <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:px-6">

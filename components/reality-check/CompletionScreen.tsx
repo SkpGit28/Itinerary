@@ -98,7 +98,7 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
     try {
       await navigator.share({ title: 'Relationship Reality Check', text })
     } catch {
-      // Cancelled or unsupported — nothing to report.
+      // Cancelled or unsupported, nothing to report.
     }
   }
 
@@ -116,10 +116,10 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
         </div>
 
         <h1 className="mt-5 text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-3xl">
-          Thank you for being honest, Nainu. ❤️
+          Thank you Nainu, sach bolne ke liye. ❤️
         </h1>
         <p className="mt-3 text-[1.0625rem] leading-relaxed text-[var(--rc-fg-muted)]">
-          Your answers have been collected. Honest answers are more useful than perfect answers.
+          Sab jawab mil gaye. Sachhe jawab hamesha perfect jawab se zyada kaam ke hote hain.
         </p>
 
         <div className="mt-8 grid gap-2.5">
@@ -136,14 +136,14 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
             {copyState === 'done' ? (
               <>
                 <Check className="h-[18px] w-[18px]" aria-hidden="true" />
-                Copied to clipboard
+                Copy ho gaya
               </>
             ) : copyState === 'failed' ? (
-              'Copy did not work — try downloading instead'
+              'Copy nahi hua, download kar lo'
             ) : (
               <>
                 <Copy className="h-[18px] w-[18px]" aria-hidden="true" />
-                Copy all answers
+                Saare jawab copy karo
               </>
             )}
           </button>
@@ -151,20 +151,20 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
           <div className="grid gap-2.5 sm:grid-cols-2">
             <button type="button" onClick={handleDownloadText} className={secondaryButton}>
               <Download className="h-[18px] w-[18px]" aria-hidden="true" />
-              Download .txt
+              .txt download karo
             </button>
             <button type="button" onClick={handleDownloadJson} className={secondaryButton}>
               <FileJson className="h-[18px] w-[18px]" aria-hidden="true" />
-              Download .json
+              .json download karo
             </button>
             <button type="button" onClick={() => window.print()} className={secondaryButton}>
               <Printer className="h-[18px] w-[18px]" aria-hidden="true" />
-              Print or save as PDF
+              Print ya PDF banao
             </button>
             {shareSupported ? (
               <button type="button" onClick={handleShare} className={secondaryButton}>
                 <Share2 className="h-[18px] w-[18px]" aria-hidden="true" />
-                Share answers
+                Jawab share karo
               </button>
             ) : null}
           </div>
@@ -172,18 +172,19 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
 
         <p aria-live="polite" className="rc-sr-only">
           {copyState === 'done'
-            ? 'Answers copied to clipboard.'
+            ? 'Jawab copy ho gaye.'
             : copyState === 'failed'
-              ? 'Copying failed. Please download the answers instead.'
+              ? 'Copy nahi hua. Download kar lo.'
               : ''}
         </p>
 
         <div className="mt-8 rounded-2xl border border-[var(--rc-border)] bg-[var(--rc-surface-muted)] p-4 sm:p-5">
-          <h2 className="text-sm font-semibold text-[var(--rc-fg)]">What this is, and is not</h2>
+          <h2 className="text-sm font-semibold text-[var(--rc-fg)]">Ye kya hai, aur kya nahi hai</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-[var(--rc-fg-muted)]">
-            {DISCLAIMER} This questionnaire does not score, rate or interpret your relationship. The
-            exported file keeps your answers exactly as you wrote them, along with a note asking any
-            reader to weigh both people fairly.
+            {DISCLAIMER} Ye questionnaire tumhare rishte ko na koi score deta hai, na koi rating,
+            na koi matlab nikaalta hai. Export file me tumhare jawab bilkul waise hi rehte hain
+            jaise tumne likhe, saath me ek note bhi jo padhne wale se kehta hai ki dono ko barabar
+            tarazu me tolna.
           </p>
         </div>
 
@@ -195,16 +196,16 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
           className="mx-auto mt-8 flex min-h-[2.75rem] items-center justify-center gap-2 rounded-2xl px-4 text-sm font-medium text-[var(--rc-fg-muted)] transition-colors hover:bg-[var(--rc-surface-muted)] hover:text-[var(--rc-fg)]"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
-          Start again
+          Dobara shuru karo
         </button>
 
         <ConfirmDialog
           open={confirmOpen}
           onOpenChange={setConfirmOpen}
-          title="Are you sure?"
-          description="Your saved answers will be deleted from this device. Copy or download them first if you want to keep them."
-          confirmLabel="Delete and start again"
-          cancelLabel="Keep my answers"
+  title="Pakka?"
+  description="Saare jawab is phone se mit jayenge. Rakhne hain toh pehle copy ya download kar lo."
+  confirmLabel="Haan, mita do"
+  cancelLabel="Nahi, rehne do"
           destructive
           onConfirm={onStartAgain}
         />

@@ -1,5 +1,5 @@
 /**
- * Relationship Reality Check — data model.
+ * Relationship Reality Check, data model.
  *
  * Question content is kept fully separate from rendering logic so that
  * questions can be reordered, reworded or extended without touching any

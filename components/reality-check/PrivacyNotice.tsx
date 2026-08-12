@@ -9,8 +9,12 @@ interface PrivacyNoticeProps {
   variant?: 'inline' | 'card'
 }
 
+/**
+ * Baat sach wahi hai, ki jawab sirf isi phone me rehte hain. Bas kehne ka
+ * tarika thoda insaani hai, robot wala nahi.
+ */
 const NOTICE =
-  'Your answers are stored locally on this device unless you choose to export or share them.'
+  'Ye sab tumhare hi phone me save ho raha hai, aur mere dil me. Dono jagah se leak nahi hoga, promise.'
 
 export function PrivacyNotice({ className, variant = 'inline' }: PrivacyNoticeProps) {
   if (variant === 'card') {

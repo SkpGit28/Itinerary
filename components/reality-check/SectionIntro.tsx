@@ -11,7 +11,7 @@ interface SectionIntroProps {
 
 /**
  * Heading block at the top of each section. Emphasised sections get a little
- * more weight — a tinted rule and a serious line — without turning into a
+ * more weight, a tinted rule and a serious line, without turning into a
  * warning banner.
  */
 export function SectionIntro({ section, questionCount }: SectionIntroProps) {
@@ -30,7 +30,7 @@ export function SectionIntro({ section, questionCount }: SectionIntroProps) {
           section.emphasis ? 'text-[var(--rc-accent)]' : 'text-[var(--rc-fg-subtle)]'
         )}
       >
-        Section {section.index} of 9
+        Section {section.index} / 9
       </p>
       <h2 className="mt-2 text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-2xl">
         {section.title}
@@ -39,7 +39,7 @@ export function SectionIntro({ section, questionCount }: SectionIntroProps) {
         {section.description}
       </p>
       <p className="mt-3 text-xs text-[var(--rc-fg-subtle)]">
-        {questionCount} {questionCount === 1 ? 'question' : 'questions'} in this section
+        Is section me {questionCount} sawaal
       </p>
     </header>
   )

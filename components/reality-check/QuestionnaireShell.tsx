@@ -33,7 +33,7 @@ export function QuestionnaireShell({
   return (
     <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-[var(--rc-bg)]">
       <a href={`#${SCROLL_REGION_ID}`} className="rc-skip-link">
-        Skip to questions
+        Seedha sawaalon pe jao
       </a>
 
       {header ? <div className="shrink-0">{header}</div> : null}

@@ -65,7 +65,7 @@ export function QuestionCard({
         <div className="min-w-0">
           {question.displayNumber ? (
             <p className="mb-2 text-xs font-semibold tabular-nums tracking-[0.08em] text-[var(--rc-fg-subtle)]">
-              {isFollowUp ? 'FOLLOW-UP' : question.displayNumber}
+              {isFollowUp ? 'AUR EK' : question.displayNumber}
             </p>
           ) : null}
           <h3
@@ -79,7 +79,7 @@ export function QuestionCard({
                 <span aria-hidden="true" className="text-[var(--rc-accent)]">
                   {' *'}
                 </span>
-                <span className="rc-sr-only"> (required)</span>
+                <span className="rc-sr-only"> (zaroori)</span>
               </>
             ) : (
               <span className="ml-2 align-middle text-xs font-normal text-[var(--rc-fg-subtle)]">

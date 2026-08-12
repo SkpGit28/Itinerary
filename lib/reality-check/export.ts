@@ -2,10 +2,10 @@ import { QUESTIONS, SECTIONS, labelForValue } from './questions'
 import { isConditionMet } from './validation'
 import type { Answers, AnswerValue, Question } from './types'
 
-export const NOT_ANSWERED = '(not answered)'
+export const NOT_ANSWERED = '(jawab nahi diya)'
 
 export const DISCLAIMER =
-  'These answers are personal experiences and should not be treated as a clinical diagnosis.'
+  'Ye jawab ek insaan ke apne experience hain, koi medical ya clinical diagnosis nahi hain.'
 
 /**
  * Appended to the text export so the answers can be handed straight to an AI
@@ -42,13 +42,13 @@ export function formatAnswer(question: Question, answer: AnswerValue | undefined
       if (!answer.choice) return NOT_ANSWERED
       const label = labelForValue(question, answer.choice)
       const other = answer.otherText?.trim()
-      return other ? `${label} — ${other}` : label
+      return other ? `${label}, ${other}` : label
     }
     case 'rating': {
       if (typeof answer.number !== 'number') return NOT_ANSWERED
       const range = question.rating
       if (!range) return String(answer.number)
-      return `${answer.number} out of ${range.max} (${range.min} = ${range.minLabel}, ${range.max} = ${range.maxLabel})`
+      return `${answer.number} / ${range.max} (${range.min} = ${range.minLabel}, ${range.max} = ${range.maxLabel})`
     }
     case 'multi': {
       const values = answer.values ?? []
@@ -56,7 +56,7 @@ export function formatAnswer(question: Question, answer: AnswerValue | undefined
       const labels = values.map((v) => labelForValue(question, v))
       const other = answer.otherText?.trim()
       const rendered = labels.join(', ')
-      return other ? `${rendered} — ${other}` : rendered
+      return other ? `${rendered}, ${other}` : rendered
     }
     case 'text':
     case 'shortText': {
@@ -101,16 +101,16 @@ export function buildTextExport(answers: Answers, completedAt = new Date().toISO
     if (questions.length === 0) continue
 
     lines.push('')
-    lines.push(`SECTION ${section.index} — ${section.title.toUpperCase()}`)
+    lines.push(`SECTION ${section.index}: ${section.title.toUpperCase()}`)
     lines.push(section.description)
     lines.push('-'.repeat(60))
 
     for (const question of questions) {
       lines.push('')
-      lines.push(`Q${question.displayNumber}${question.required ? ' (required)' : ' (optional)'}:`)
+      lines.push(`Q${question.displayNumber}${question.required ? ' (zaroori)' : ' (optional)'}:`)
       lines.push(question.title)
       lines.push('')
-      lines.push('Answer:')
+      lines.push('Jawab:')
       lines.push(formatAnswer(question, answers[question.id]))
       lines.push('')
     }
@@ -147,7 +147,7 @@ export interface JsonExport {
   responses: JsonExportQuestion[]
 }
 
-/** Structured export — same content as the text export, machine-readable. */
+/** Structured export, same content as the text export, machine-readable. */
 export function buildJsonExport(answers: Answers, completedAt = new Date().toISOString()): JsonExport {
   const responses: JsonExportQuestion[] = []
 

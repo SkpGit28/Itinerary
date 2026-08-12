@@ -37,7 +37,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-/** Defensive parse — a corrupt or foreign payload is treated as "no saved data". */
+/** Defensive parse, a corrupt or foreign payload is treated as "no saved data". */
 function parseState(raw: string): StoredState | null {
   let data: unknown
   try {
@@ -73,7 +73,7 @@ export function loadState(): StoredState | null {
     if (!raw) return null
     return parseState(raw)
   } catch {
-    // Private browsing, disabled storage, quota — fall back to a fresh session.
+    // Private browsing, disabled storage, quota, fall back to a fresh session.
     return null
   }
 }
@@ -93,7 +93,7 @@ export function clearState(): void {
   try {
     window.localStorage.removeItem(STORAGE_KEY)
   } catch {
-    // Nothing useful to do — the in-memory reset still happens.
+    // Nothing useful to do, the in-memory reset still happens.
   }
 }
 

@@ -25,7 +25,7 @@ export function SaveIndicator({ status }: SaveIndicatorProps) {
         className="flex items-center gap-1.5 text-xs text-[var(--rc-fg-subtle)]"
       >
         <CloudOff className="h-3.5 w-3.5" aria-hidden="true" />
-        Not saved on this device
+        Is phone me save nahi hua
       </span>
     )
   }
@@ -38,12 +38,12 @@ export function SaveIndicator({ status }: SaveIndicatorProps) {
       {status === 'saving' ? (
         <>
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-          Saving…
+          Save ho raha hai
         </>
       ) : (
         <>
           <Check className="h-3.5 w-3.5" aria-hidden="true" />
-          Saved
+          Save ho gaya
         </>
       )}
     </span>

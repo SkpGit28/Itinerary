@@ -34,7 +34,7 @@ interface SectionTransitionProps {
 export function SectionTransition({ line }: SectionTransitionProps) {
   return (
     <div
-      // Decorative pause, not a dialog — it takes no focus and traps nothing.
+      // Decorative pause, not a dialog, it takes no focus and traps nothing.
       className="absolute inset-0 z-40 flex flex-col items-center justify-center gap-5 bg-[var(--rc-bg)]/95 px-8 backdrop-blur-sm"
     >
       <Settings
@@ -47,7 +47,7 @@ export function SectionTransition({ line }: SectionTransitionProps) {
       </p>
       {/* Announce the move politely rather than reading the whole overlay. */}
       <p aria-live="polite" className="rc-sr-only">
-        Saving this section. {line}
+        Section save ho gaya. {line}
       </p>
     </div>
   )

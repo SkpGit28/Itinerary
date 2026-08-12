@@ -31,7 +31,7 @@ export function ProgressHeader({
         </div>
         <ProgressBar
           value={completion}
-          label="Questionnaire progress"
+          label="Kitna ho gaya"
           className="mt-2.5"
         />
       </div>

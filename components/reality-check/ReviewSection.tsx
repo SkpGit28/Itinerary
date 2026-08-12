@@ -53,12 +53,12 @@ export function ReviewSection({
             </span>
             <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[var(--rc-fg-subtle)]">
               <span className="tabular-nums">
-                {progress.answered}/{progress.total} answered
+                {progress.answered}/{progress.total} ho gaye
               </span>
               {progress.missingRequired > 0 ? (
                 <span className="flex items-center gap-1 text-[var(--rc-error)]">
                   <AlertCircle className="h-3.5 w-3.5" aria-hidden="true" />
-                  {progress.missingRequired} required left
+                  {progress.missingRequired} zaroori baaki
                 </span>
               ) : null}
             </span>
@@ -71,7 +71,7 @@ export function ReviewSection({
           className="flex w-[4.5rem] shrink-0 flex-col items-center justify-center gap-1 border-l border-[var(--rc-border)] text-xs font-medium text-[var(--rc-accent)] transition-colors hover:bg-[var(--rc-accent-soft)]"
         >
           <Pencil className="h-4 w-4" aria-hidden="true" />
-          Edit
+          Badlo
           <span className="rc-sr-only">{section.title}</span>
         </button>
       </div>

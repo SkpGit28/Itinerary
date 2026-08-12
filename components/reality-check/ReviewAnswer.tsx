@@ -22,7 +22,7 @@ export function ReviewAnswer({ question, answer }: ReviewAnswerProps) {
         {question.required ? (
           <>
             <span aria-hidden="true"> *</span>
-            <span className="rc-sr-only"> (required)</span>
+            <span className="rc-sr-only"> (zaroori)</span>
           </>
         ) : null}
       </p>
@@ -39,7 +39,7 @@ export function ReviewAnswer({ question, answer }: ReviewAnswerProps) {
               : 'var(--rc-fg-subtle)',
         }}
       >
-        {missing ? 'Not answered yet' : value}
+        {missing ? 'Abhi tak khaali hai' : value}
       </p>
     </div>
   )

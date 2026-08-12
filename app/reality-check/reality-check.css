@@ -1,5 +1,5 @@
 /*
- * Relationship Reality Check — scoped design tokens.
+ * Relationship Reality Check, scoped design tokens.
  *
  * Everything lives under .rc-root so this app can carry its own calm, light
  * palette without touching the dark theme the rest of the site uses.
@@ -23,7 +23,7 @@
   --rc-error-border: #e5c3c1;
 
   /*
-   * Tokens only — no background or color here. The sheet and dialog contents
+   * Tokens only, no background or color here. The sheet and dialog contents
    * are portaled to <body>, so they carry .rc-root purely to pick up these
    * variables; painting here would override their own surface colours.
    */
@@ -34,7 +34,7 @@
 
 /*
  * Only what preflight does not already provide. Font and colour inheritance
- * for form controls comes from Tailwind's base layer — repeating it here
+ * for form controls comes from Tailwind's base layer, repeating it here
  * would be unlayered and would beat `text-*` utilities on buttons.
  */
 .rc-root :where(button) {

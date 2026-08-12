@@ -45,10 +45,10 @@ export function ReviewScreen({
     <div className="space-y-4">
       <header>
         <h2 className="text-[1.5rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-2xl">
-          Review your answers
+          Apne jawab ek baar dekh lo
         </h2>
         <p className="mt-2 text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
-          Open any section to read what you wrote. You can change any answer before you finish.
+          Kisi bhi section ko khol ke padh lo. Bhejne se pehle kuch bhi badal sakti ho.
         </p>
       </header>
 
@@ -61,15 +61,14 @@ export function ReviewScreen({
         >
           <p className="flex items-start gap-2 text-[0.9375rem] font-medium leading-snug text-[var(--rc-error)]">
             <AlertCircle className="mt-[2px] h-4 w-4 shrink-0" aria-hidden="true" />
-            You have {issues.length} unanswered required{' '}
-            {issues.length === 1 ? 'question' : 'questions'}.
+            {issues.length} zaroori sawaal abhi baaki hain.
           </p>
           <button
             type="button"
             onClick={() => onJumpToQuestion(issues[0].questionId)}
             className="mt-2.5 min-h-[2.75rem] rounded-xl bg-[var(--rc-error)] px-4 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
-            Go to the first one
+            Pehle wale pe le chalo
           </button>
         </div>
       ) : null}
@@ -120,7 +119,7 @@ export function ReviewScreen({
           {honestyConfirmed ? <Check className="h-3 w-3" strokeWidth={3} /> : null}
         </span>
         <span className="text-[0.9375rem] leading-snug text-[var(--rc-fg)]">
-          I&apos;ve answered these questions honestly.
+          Maine sab sach sach likha hai, kasam se.
         </span>
       </label>
 
@@ -131,7 +130,7 @@ export function ReviewScreen({
           role="alert"
         >
           <AlertCircle className="mt-[1px] h-4 w-4 shrink-0" aria-hidden="true" />
-          Please confirm this before submitting.
+          Ye tick kar do phir bhejte hain.
         </p>
       ) : null}
 
@@ -140,7 +139,7 @@ export function ReviewScreen({
         onClick={onSubmit}
         className="flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl bg-[var(--rc-accent)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
       >
-        Submit Answers
+        Bhej do
       </button>
 
       <PrivacyNotice className="pt-2" />

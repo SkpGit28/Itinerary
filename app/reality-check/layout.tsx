@@ -4,7 +4,7 @@ import './reality-check.css'
 export const metadata: Metadata = {
   title: 'Relationship Reality Check',
   description:
-    'A private questionnaire for describing what a relationship actually feels like. Answers stay on your device.',
+    'Ek private questionnaire, sirf ye samajhne ke liye ki rishta asli me kaisa lagta hai. Jawab isi phone me rehte hain.',
   // These answers are personal; keep the page out of search indexes.
   robots: { index: false, follow: false },
 }

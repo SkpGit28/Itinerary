@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 interface ValidationMessageProps {
   id?: string
   message: string
-  /** `hint` is guidance, not a failure — it never blocks the user. */
+  /** `hint` is guidance, not a failure, it never blocks the user. */
   tone?: 'error' | 'hint'
   className?: string
 }

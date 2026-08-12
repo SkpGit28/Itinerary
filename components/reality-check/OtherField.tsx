@@ -19,7 +19,7 @@ export function OtherField({ id, value, onChange, invalid, describedBy }: OtherF
   return (
     <div className="mt-2.5">
       <label htmlFor={id} className="mb-1.5 block text-sm text-[var(--rc-fg-muted)]">
-        Tell us more…
+        Thoda aur bata do…
       </label>
       <input
         id={id}
@@ -35,7 +35,7 @@ export function OtherField({ id, value, onChange, invalid, describedBy }: OtherF
             ? 'border-[var(--rc-error-border)] bg-[var(--rc-error-soft)]'
             : 'border-[var(--rc-border)] hover:border-[var(--rc-border-strong)]'
         )}
-        placeholder="In your own words…"
+        placeholder="Apne shabdon me…"
       />
     </div>
   )

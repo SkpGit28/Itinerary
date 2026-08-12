@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import type { QuestionInputProps } from './YesNoQuestion'
 
 /**
- * A little reaction that pops above the chosen number. Purely decorative —
+ * A little reaction that pops above the chosen number. Purely decorative ,
  * it acknowledges the answer without commenting on it, and the low end gets
  * a gentle face rather than anything scolding.
  */
@@ -78,9 +78,9 @@ export function RatingQuestion({
               <span aria-hidden="true">{value}</span>
               <span className="rc-sr-only">
                 {value === range.min
-                  ? `${value} — ${range.minLabel}`
+                  ? `${value}, ${range.minLabel}`
                   : value === range.max
-                    ? `${value} — ${range.maxLabel}`
+                    ? `${value}, ${range.maxLabel}`
                     : String(value)}
               </span>
 
@@ -100,10 +100,10 @@ export function RatingQuestion({
 
       <div className="mt-2.5 flex items-start justify-between gap-4 text-xs leading-snug text-[var(--rc-fg-subtle)]">
         <span className="max-w-[45%]">
-          {range.min} — {range.minLabel}
+          {range.min}, {range.minLabel}
         </span>
         <span className="max-w-[45%] text-right">
-          {range.max} — {range.maxLabel}
+          {range.max}, {range.maxLabel}
         </span>
       </div>
     </fieldset>

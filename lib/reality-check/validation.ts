@@ -13,13 +13,13 @@ export const MIN_MEANINGFUL_CHARS = 3
 export const MIN_OTHER_CHARS = 2
 
 export const MESSAGES = {
-  unanswered: 'Please answer this question.',
-  tooShort: 'Please write a little more so your answer is clear.',
-  other: 'Please tell us a little more.',
-  maxSelections: (n: number) => `Please choose no more than ${n}.`,
+  unanswered: 'Ye wala reh gaya, bhar do please.',
+  tooShort: 'Thoda aur likh do, baat clear ho jayegi.',
+  other: 'Thoda aur bata do.',
+  maxSelections: (n: number) => `${n} se zyada mat chuno.`,
 } as const
 
-/** Characters that actually carry meaning — spaces do not count. */
+/** Characters that actually carry meaning, spaces do not count. */
 export function meaningfulLength(value: string | undefined): number {
   if (!value) return 0
   return value.replace(/\s/g, '').length

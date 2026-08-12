@@ -22,7 +22,7 @@ export function QuestionInfoButton({ questionTitle, info }: QuestionInfoButtonPr
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="What does this question mean?"
+        aria-label="Is sawaal ka matlab kya hai?"
         className="-mr-2 -mt-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[var(--rc-fg-subtle)] transition-colors hover:bg-[var(--rc-surface-muted)] hover:text-[var(--rc-accent)]"
       >
         <Info className="h-[18px] w-[18px]" aria-hidden="true" />

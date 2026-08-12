@@ -50,7 +50,7 @@ export default function RealityCheckPage() {
   const [savedExists, setSavedExists] = React.useState(false)
   const [saveStatus, setSaveStatus] = React.useState<SaveStatus>('idle')
 
-  /** Sections where the user has pressed Next — errors only appear after that. */
+  /** Sections where the user has pressed Next, errors only appear after that. */
   const [attempted, setAttempted] = React.useState<Record<string, boolean>>({})
   const [showSubmitErrors, setShowSubmitErrors] = React.useState(false)
   const [pendingFocus, setPendingFocus] = React.useState<string | null>(null)
@@ -195,7 +195,7 @@ export default function RealityCheckPage() {
       else goToSection(sectionIndex + 1)
     }
 
-    // Going back to review after an edit is a correction, not progress —
+    // Going back to review after an edit is a correction, not progress ,
     // it does not get the celebratory pause.
     if (editingFromReview) {
       advance()
@@ -208,7 +208,7 @@ export default function RealityCheckPage() {
         advance()
         setTransitionLine(null)
       },
-      prefersReducedMotion() ? 300 : 700
+      prefersReducedMotion() ? 350 : 1100
     )
   }
 
@@ -260,7 +260,7 @@ export default function RealityCheckPage() {
   if (!mounted) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center px-6">
-        <p className="text-sm text-[var(--rc-fg-subtle)]">Loading…</p>
+        <p className="text-sm text-[var(--rc-fg-subtle)]">Ek second…</p>
       </div>
     )
   }
@@ -293,8 +293,8 @@ export default function RealityCheckPage() {
         transitionKey="review"
         header={
           <ProgressHeader
-            stepLabel="Last step"
-            title="Review & submit"
+            stepLabel="Aakhri step"
+            title="Ek baar dekh lo"
             completion={completion}
             saveStatus={visibleSaveStatus}
           />
@@ -303,8 +303,8 @@ export default function RealityCheckPage() {
           <QuestionNavigation
             onBack={handleBack}
             onNext={handleSubmit}
-            nextLabel="Submit"
-            positionLabel="Review"
+            nextLabel="Bhejo"
+            positionLabel="Aakhri"
           />
         }
       >
@@ -335,7 +335,7 @@ export default function RealityCheckPage() {
       overlay={transitionLine ? <SectionTransition line={transitionLine} /> : null}
       header={
         <ProgressHeader
-          stepLabel={`Section ${section.index} of ${SECTIONS.length}`}
+          stepLabel={`Section ${section.index} / ${SECTIONS.length}`}
           title={section.title}
           completion={completion}
           saveStatus={visibleSaveStatus}
@@ -345,12 +345,12 @@ export default function RealityCheckPage() {
         <QuestionNavigation
           onBack={handleBack}
           onNext={handleNext}
-          backLabel={editingFromReview ? 'Review' : 'Back'}
-          nextLabel={editingFromReview ? 'Done' : isLastSection ? 'Review' : 'Next'}
+          backLabel={editingFromReview ? 'Wapas' : 'Peeche'}
+          nextLabel={editingFromReview ? 'Ho gaya' : isLastSection ? 'Dekho' : 'Aage'}
           positionLabel={
             editingFromReview
-              ? `Editing section ${section.index}`
-              : `${section.index} of ${SECTIONS.length}`
+              ? `Section ${section.index} badal rahi ho`
+              : `${section.index} / ${SECTIONS.length}`
           }
         />
       }

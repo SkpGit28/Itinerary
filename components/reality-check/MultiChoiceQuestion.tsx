@@ -45,13 +45,13 @@ export function MultiChoiceQuestion({
     <div>
       {typeof max === 'number' ? (
         <p id={limitId} className="mb-2.5 text-sm text-[var(--rc-fg-muted)]">
-          Choose up to {max}.{' '}
+          Zyada se zyada {max} chuno.{' '}
           <span className="text-[var(--rc-fg-subtle)]">
-            {selected.length} of {max} chosen
+            {selected.length} / {max} chune hue
           </span>
         </p>
       ) : (
-        <p className="mb-2.5 text-sm text-[var(--rc-fg-muted)]">You can choose more than one.</p>
+        <p className="mb-2.5 text-sm text-[var(--rc-fg-muted)]">Ek se zyada bhi chun sakti ho.</p>
       )}
 
       <fieldset
