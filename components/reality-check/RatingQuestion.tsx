@@ -4,6 +4,9 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import type { QuestionInputProps } from './YesNoQuestion'
 
+/** Reaction kitni der screen pe rehta hai, phir bina animation ke gayab. */
+const REACTION_MS = 2500
+
 /**
  * A little reaction that pops above the chosen number. Purely decorative ,
  * it acknowledges the answer without commenting on it, and the low end gets
@@ -42,6 +45,26 @@ export function RatingQuestion({
     return list
   }, [range.min, range.max])
 
+  /*
+   * Reaction sirf tab dikhta hai jab is screen pe koi number chuna jaata
+   * hai. Purana saved jawab wapas kholne pe wo dobara nahi udta. `key`
+   * isliye hai ki wahi number dobara chunne pe animation phir se chale.
+   */
+  const [reaction, setReaction] = React.useState<{ value: number; key: number } | null>(null)
+  const reactionKey = React.useRef(0)
+
+  React.useEffect(() => {
+    if (!reaction) return
+    const timer = window.setTimeout(() => setReaction(null), REACTION_MS)
+    return () => window.clearTimeout(timer)
+  }, [reaction])
+
+  function pick(value: number) {
+    onChange({ number: value })
+    reactionKey.current += 1
+    setReaction({ value, key: reactionKey.current })
+  }
+
   return (
     <fieldset
       aria-labelledby={labelledBy}
@@ -71,7 +94,7 @@ export function RatingQuestion({
                 name={question.id}
                 value={value}
                 checked={selected}
-                onChange={() => onChange({ number: value })}
+                onChange={() => pick(value)}
                 className="rc-sr-only"
               />
               {/* The bare number is meaningless to a screen reader on its own. */}
@@ -84,9 +107,9 @@ export function RatingQuestion({
                     : String(value)}
               </span>
 
-              {selected ? (
+              {reaction && reaction.value === value ? (
                 <span
-                  key={value}
+                  key={reaction.key}
                   aria-hidden="true"
                   className="rc-reaction pointer-events-none absolute -top-8 left-1/2 text-2xl leading-none"
                 >

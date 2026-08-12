@@ -116,14 +116,21 @@ export default function RealityCheckPage() {
   const { stage, sectionIndex, answers } = state
   const section = sectionIndex >= 0 ? SECTIONS[sectionIndex] : undefined
 
-  // Only the question list scrolls now, so reset that region rather than
-  // the window when the step changes.
+  /*
+   * Naya step khulte hi list ko upar le aao. Ye sirf tab chalna chahiye jab
+   * step sach me badle. Pehle `pendingFocus` bhi dependency me tha, toh jab
+   * wo clear hota tha tab ye dobara chal ke scroll wapas 0 kar deta tha,
+   * matlab chhoote hue sawaal pe kiya gaya scroll turant mit jaata tha.
+   */
+  const lastStepRef = React.useRef<string>('')
   React.useEffect(() => {
-    if (pendingFocus) return
+    const step = `${stage}:${sectionIndex}`
+    if (lastStepRef.current === step) return
+    lastStepRef.current = step
     const region = document.getElementById(SCROLL_REGION_ID)
     if (region) region.scrollTop = 0
     else window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [stage, sectionIndex, pendingFocus])
+  }, [stage, sectionIndex])
 
   // ── Derived values ────────────────────────────────────────────────────────
   const completion = React.useMemo(() => overallCompletion(answers), [answers])
@@ -208,7 +215,7 @@ export default function RealityCheckPage() {
         advance()
         setTransitionLine(null)
       },
-      prefersReducedMotion() ? 350 : 1100
+      prefersReducedMotion() ? 400 : 2000
     )
   }
 
