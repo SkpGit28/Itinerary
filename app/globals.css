@@ -32,7 +32,18 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Axiforma', 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
 }
 
-* {
+/*
+ * NOTE: this reset is unlayered, and unlayered CSS beats every Tailwind v4
+ * utility regardless of specificity — so it silently cancels all `p-*`, `m-*`
+ * and `space-y-*` classes. The `:not()` clauses exempt the Relationship
+ * Reality Check subtree, where Tailwind's own preflight (which zeroes margin
+ * and padding in the base layer) supplies the same defaults while still
+ * letting utilities win.
+ *
+ * The rest of the site keeps the original behaviour untouched. Moving this
+ * whole block into `@layer base` would fix the same problem everywhere.
+ */
+*:not(.rc-root):not(.rc-root *) {
   box-sizing: border-box;
   padding: 0;
   margin: 0;

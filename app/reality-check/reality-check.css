@@ -1,0 +1,260 @@
+/*
+ * Relationship Reality Check — scoped design tokens.
+ *
+ * Everything lives under .rc-root so this app can carry its own calm, light
+ * palette without touching the dark theme the rest of the site uses.
+ */
+
+.rc-root {
+  --rc-bg: #f6f5f2;
+  --rc-surface: #ffffff;
+  --rc-surface-muted: #fbfaf8;
+  --rc-fg: #191917;
+  --rc-fg-muted: #63625c;
+  --rc-fg-subtle: #86857e;
+  --rc-border: #e6e3dd;
+  --rc-border-strong: #d3cfc7;
+  --rc-accent: #3c6e63;
+  --rc-accent-hover: #335d54;
+  --rc-accent-soft: #edf3f1;
+  --rc-accent-border: #a9c5be;
+  --rc-error: #b4413c;
+  --rc-error-soft: #fbf1f0;
+  --rc-error-border: #e5c3c1;
+
+  /*
+   * Tokens only — no background or color here. The sheet and dialog contents
+   * are portaled to <body>, so they carry .rc-root purely to pick up these
+   * variables; painting here would override their own surface colours.
+   */
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Only what preflight does not already provide. Font and colour inheritance
+ * for form controls comes from Tailwind's base layer — repeating it here
+ * would be unlayered and would beat `text-*` utilities on buttons.
+ */
+.rc-root :where(button) {
+  cursor: pointer;
+}
+
+.rc-root :where(textarea) {
+  resize: vertical;
+}
+
+/* A single, consistent focus treatment across every interactive element. */
+.rc-root :where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--rc-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Visually hidden but available to assistive tech and focusable. */
+.rc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.rc-skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0.5rem;
+  transform: translate(-50%, -200%);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem; /* 44px touch target */
+  background: var(--rc-surface);
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: transform 160ms ease-out;
+}
+
+.rc-skip-link:focus-visible {
+  transform: translate(-50%, 0);
+}
+
+/*
+ * Selectable options wrap a visually hidden native input, so keyboard
+ * behaviour (arrow keys within a radio group, space to toggle a checkbox)
+ * comes from the browser. The focus ring is moved onto the visible label.
+ */
+.rc-option {
+  position: relative;
+}
+
+.rc-option:has(input:focus-visible) {
+  outline: 2px solid var(--rc-accent);
+  outline-offset: 2px;
+}
+
+.rc-option:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.rc-checkbox:has(input:focus-visible) {
+  outline: 2px solid var(--rc-accent);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes rc-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rc-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes rc-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes rc-slide-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes rc-zoom-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes rc-zoom-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.97);
+  }
+}
+
+@keyframes rc-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rc-overlay[data-state='open'] {
+  animation: rc-fade-in 200ms ease-out;
+}
+
+.rc-overlay[data-state='closed'] {
+  animation: rc-fade-out 160ms ease-in;
+}
+
+/* Mobile: bottom sheet. */
+.rc-sheet[data-state='open'] {
+  animation: rc-slide-up 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.rc-sheet[data-state='closed'] {
+  animation: rc-slide-down 200ms ease-in;
+}
+
+/* Desktop: centered dialog. */
+@media (min-width: 640px) {
+  .rc-sheet[data-state='open'] {
+    animation: rc-zoom-in 200ms ease-out;
+  }
+
+  .rc-sheet[data-state='closed'] {
+    animation: rc-zoom-out 160ms ease-in;
+  }
+}
+
+.rc-step {
+  animation: rc-step-in 260ms ease-out;
+}
+
+.rc-progress-fill {
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent background scroll bleed while the sheet is open on iOS. */
+.rc-root [data-rc-scroll] {
+  overscroll-behavior: contain;
+}
+
+/* ── Print / save as PDF ────────────────────────────────────────────────── */
+
+.rc-print-only {
+  display: none;
+}
+
+@media print {
+  .rc-no-print {
+    display: none !important;
+  }
+
+  .rc-print-only {
+    display: block !important;
+  }
+
+  .rc-root {
+    background: #ffffff;
+    color: #000000;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-root *,
+  .rc-root *::before,
+  .rc-root *::after,
+  .rc-overlay,
+  .rc-sheet,
+  .rc-step {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
