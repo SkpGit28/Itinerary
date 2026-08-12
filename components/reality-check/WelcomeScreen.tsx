@@ -50,11 +50,6 @@ export function WelcomeScreen({
         <HandHeart className="inline-block h-[0.8em] w-[0.8em] align-baseline text-[var(--rc-accent)]" />
       </h1>
 
-      <p className="mt-4 text-[1.0625rem] leading-[1.65] text-[var(--rc-fg-muted)]">
-        Koi jawab sahi ya galat nahi hai. Bas ye batana ki Sush ke saath rehna tumhe asli me kaisa
-        lagta hai, acchi baatein bhi aur mushkil bhi.
-      </p>
-
       {hasSavedProgress ? (
         <div className="mt-8 rounded-3xl border border-[var(--rc-accent-border)] bg-[var(--rc-accent-soft)] p-5">
           <h2 className="text-base font-semibold text-[var(--rc-fg)]">Arre, wapas aa gayi!</h2>
@@ -108,10 +103,15 @@ export function WelcomeScreen({
         ))}
       </ul>
 
-      <figure className="mt-5 flex gap-3.5 rounded-3xl bg-[var(--rc-surface-muted)] px-5 py-5">
+      {/*
+        Ye card CTA ke bilkul upar hai, isliye page se saaf alag dikhna
+        chahiye. Surface-muted page ke background jaisa hi lag raha tha,
+        isliye ab brand ka halka green tint aur uske hisaab ka border.
+      */}
+      <figure className="mt-5 flex gap-3.5 rounded-3xl border border-[var(--rc-accent-border)] bg-[var(--rc-accent-soft)] px-5 py-5">
         <span
           aria-hidden="true"
-          className="rc-hand shrink-0 text-[2rem] leading-[0.8] text-[var(--rc-accent)] opacity-45"
+          className="rc-hand shrink-0 text-[2rem] leading-[0.8] text-[var(--rc-accent)] opacity-60"
         >
           &ldquo;
         </span>
