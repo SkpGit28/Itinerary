@@ -208,7 +208,7 @@ export default function RealityCheckPage() {
         advance()
         setTransitionLine(null)
       },
-      prefersReducedMotion() ? 350 : 1150
+      prefersReducedMotion() ? 300 : 700
     )
   }
 

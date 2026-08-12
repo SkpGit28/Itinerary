@@ -188,9 +188,35 @@
   }
 }
 
+/*
+ * After the pop settles, the reaction keeps a slow heartbeat so the chosen
+ * number stays alive on screen. The beat repeats the pop's end position at
+ * 0% so the hand-off between the two animations is seamless.
+ */
+@keyframes rc-reaction-beat {
+  0%,
+  100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  20% {
+    transform: translate(-50%, -4px) scale(1.14);
+  }
+  40% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  60% {
+    transform: translate(-50%, -2px) scale(1.07);
+  }
+  80% {
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
 .rc-reaction {
   transform: translateX(-50%);
-  animation: rc-reaction-pop 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation:
+    rc-reaction-pop 380ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    rc-reaction-beat 1.8s ease-in-out 380ms infinite;
 }
 
 /* The between-sections interstitial. */
@@ -216,8 +242,8 @@
 }
 
 .rc-line {
-  animation: rc-line-in 320ms ease-out both;
-  animation-delay: 90ms;
+  animation: rc-line-in 280ms ease-out both;
+  animation-delay: 60ms;
 }
 
 @keyframes rc-step-in {
