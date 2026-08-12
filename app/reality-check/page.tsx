@@ -35,6 +35,7 @@ import {
   saveState,
   type StoredState,
 } from '@/lib/reality-check/storage'
+import { saveResponsesRemotely } from '@/lib/reality-check/remote'
 import type { AnswerValue } from '@/lib/reality-check/types'
 
 const SAVE_DEBOUNCE_MS = 400
@@ -62,6 +63,10 @@ export default function RealityCheckPage() {
   const [editingFromReview, setEditingFromReview] = React.useState(false)
   /** Non-null while the between-sections interstitial is showing. */
   const [transitionLine, setTransitionLine] = React.useState<string | null>(null)
+  /** Jawab Supabase me bhejne ka haal. */
+  const [uploadState, setUploadState] = React.useState<'idle' | 'saving' | 'saved' | 'failed'>(
+    'idle'
+  )
   const transitionTimer = React.useRef<number | null>(null)
 
   // Never leave a pending advance running after the page unmounts.
@@ -253,12 +258,24 @@ export default function RealityCheckPage() {
       setAttempted(Object.fromEntries(SECTIONS.map((s) => [s.id, true])))
       return
     }
-    setState((prev) => ({
-      ...prev,
-      stage: 'done',
-      submittedAt: new Date().toISOString(),
-    }))
+    const submittedAt = new Date().toISOString()
+    setState((prev) => ({ ...prev, stage: 'done', submittedAt }))
+    void uploadAnswers(answers, submittedAt)
   }
+
+  /*
+   * Supabase me bhejna completion screen ko rok nahi sakta. Jawab phone me
+   * pehle se save hain aur export bhi ho sakte hain, isliye fail hone pe sirf
+   * bata dete hain aur dobara koshish karne ka button de dete hain.
+   */
+  const uploadAnswers = React.useCallback(
+    async (toSave: typeof answers, submittedAt: string) => {
+      setUploadState('saving')
+      const result = await saveResponsesRemotely(toSave, submittedAt)
+      setUploadState(result.ok ? 'saved' : 'failed')
+    },
+    []
+  )
 
   // ── Render ────────────────────────────────────────────────────────────────
 
@@ -278,6 +295,10 @@ export default function RealityCheckPage() {
         answers={answers}
         completedAt={state.submittedAt ?? new Date().toISOString()}
         onStartAgain={handleStartOver}
+        uploadState={uploadState}
+        onRetryUpload={() =>
+          void uploadAnswers(answers, state.submittedAt ?? new Date().toISOString())
+        }
       />
     )
   }

@@ -10,11 +10,12 @@ interface PrivacyNoticeProps {
 }
 
 /**
- * Baat sach wahi hai, ki jawab sirf isi phone me rehte hain. Bas kehne ka
- * tarika thoda insaani hai, robot wala nahi.
+ * Ab jawab sirf phone me nahi rehte, submit karne pe server pe bhi jaate
+ * hain. Isliye ye line badalni zaroori thi. Mazaak wahi hai, par baat sach
+ * honi chahiye, warna ye poore questionnaire ke bharose ko todta.
  */
 const NOTICE =
-  'Ye sab tumhare hi phone me save ho raha hai, aur mere dil me. Dono jagah se leak nahi hoga, promise.'
+  'Likhte waqt sab kuch tumhare hi phone me rehta hai. Submit karogi tabhi jawab mere paas aayenge, aur kahin nahi. Promise.'
 
 export function PrivacyNotice({ className, variant = 'inline' }: PrivacyNoticeProps) {
   if (variant === 'card') {

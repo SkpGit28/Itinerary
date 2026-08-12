@@ -1,7 +1,18 @@
 'use client'
 
 import * as React from 'react'
-import { Check, Copy, Download, FileJson, Printer, RotateCcw, Share2 } from 'lucide-react'
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  Copy,
+  Download,
+  FileJson,
+  Loader2,
+  Printer,
+  RotateCcw,
+  Share2,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ConfirmDialog } from './ConfirmDialog'
 import { HandHeart } from './HandHeart'
@@ -14,10 +25,15 @@ import {
 } from '@/lib/reality-check/export'
 import type { Answers } from '@/lib/reality-check/types'
 
+export type UploadState = 'idle' | 'saving' | 'saved' | 'failed'
+
 interface CompletionScreenProps {
   answers: Answers
   completedAt: string
   onStartAgain: () => void
+  /** Jawab Supabase me bhejne ka haal. */
+  uploadState: UploadState
+  onRetryUpload: () => void
 }
 
 type ActionState = 'idle' | 'done' | 'failed'
@@ -61,7 +77,13 @@ async function copyText(text: string): Promise<boolean> {
   }
 }
 
-export function CompletionScreen({ answers, completedAt, onStartAgain }: CompletionScreenProps) {
+export function CompletionScreen({
+  answers,
+  completedAt,
+  onStartAgain,
+  uploadState,
+  onRetryUpload,
+}: CompletionScreenProps) {
   const [copyState, setCopyState] = React.useState<ActionState>('idle')
   const [shareSupported, setShareSupported] = React.useState(false)
   const [confirmOpen, setConfirmOpen] = React.useState(false)
@@ -126,6 +148,26 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
         <p className="rc-hand mt-3 text-[1.35rem] leading-snug text-[var(--rc-accent-text)]">
           Sach me, ye chhoti baat nahi thi.
         </p>
+
+        {uploadState === 'failed' ? (
+          <div className="mt-8 rounded-2xl border border-[var(--rc-error-border)] bg-[var(--rc-error-soft)] p-4">
+            <p className="flex items-start gap-2 text-[0.9375rem] font-medium leading-snug text-[var(--rc-error)]">
+              <AlertCircle className="mt-[2px] h-4 w-4 shrink-0" aria-hidden="true" />
+              Jawab online save nahi ho paye.
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--rc-fg-muted)]">
+              Ghabrao mat, sab kuch is phone me safe hai. Neeche se copy ya download bhi kar
+              sakti ho.
+            </p>
+            <button
+              type="button"
+              onClick={onRetryUpload}
+              className="mt-3 min-h-[2.75rem] rounded-xl bg-[var(--rc-error)] px-4 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Dobara koshish karo
+            </button>
+          </div>
+        ) : null}
 
         <div className="mt-9 grid gap-2.5">
           <button
@@ -193,7 +235,24 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
           </p>
         </div>
 
-        <PrivacyNotice className="mt-6" />
+        <p
+          aria-live="polite"
+          className="mt-5 flex items-center justify-center gap-1.5 text-xs text-[var(--rc-fg-subtle)]"
+        >
+          {uploadState === 'saving' ? (
+            <>
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+              Jawab save ho rahe hain…
+            </>
+          ) : uploadState === 'saved' ? (
+            <>
+              <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+              Jawab mujh tak pahunch gaye
+            </>
+          ) : null}
+        </p>
+
+        <PrivacyNotice className="mt-4" />
 
         <button
           type="button"
