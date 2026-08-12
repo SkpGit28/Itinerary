@@ -28,7 +28,7 @@ export function QuestionNavigation({
   return (
     <nav
       aria-label="Questionnaire navigation"
-      className="sticky bottom-0 z-30 border-t border-[var(--rc-border)] bg-[var(--rc-bg)]/92 backdrop-blur-md"
+      className="z-30 border-t border-[var(--rc-border)] bg-[var(--rc-bg)]"
     >
       <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:px-6">
         {hideBack ? (

@@ -5,6 +5,25 @@ import { cn } from '@/lib/utils'
 import type { QuestionInputProps } from './YesNoQuestion'
 
 /**
+ * A little reaction that pops above the chosen number. Purely decorative —
+ * it acknowledges the answer without commenting on it, and the low end gets
+ * a gentle face rather than anything scolding.
+ */
+const REACTIONS: Record<number, string> = {
+  0: '💔',
+  1: '😔',
+  2: '😕',
+  3: '😐',
+  4: '🙂',
+  5: '😊',
+  6: '😌',
+  7: '😄',
+  8: '🥰',
+  9: '😍',
+  10: '❤️',
+}
+
+/**
  * A 0–10 rating. Rendered as discrete radios rather than a slider: a slider
  * has no clear "unanswered" state and is hard to set precisely on a phone.
  */
@@ -32,7 +51,9 @@ export function RatingQuestion({
         invalid && 'rounded-2xl outline outline-1 outline-offset-4 outline-[var(--rc-error-border)]'
       )}
     >
-      <div className="grid grid-cols-6 gap-1.5 sm:grid-cols-11">
+      {/* Extra top padding and row gap leave room for the reaction to sit
+          above a button without covering the row above it. */}
+      <div className="grid grid-cols-6 gap-x-1.5 gap-y-9 pt-8 sm:grid-cols-11 sm:gap-y-1.5">
         {values.map((value) => {
           const selected = answer?.number === value
           return (
@@ -62,6 +83,16 @@ export function RatingQuestion({
                     ? `${value} — ${range.maxLabel}`
                     : String(value)}
               </span>
+
+              {selected ? (
+                <span
+                  key={value}
+                  aria-hidden="true"
+                  className="rc-reaction pointer-events-none absolute -top-8 left-1/2 text-2xl leading-none"
+                >
+                  {REACTIONS[value] ?? '🙂'}
+                </span>
+              ) : null}
             </label>
           )
         })}

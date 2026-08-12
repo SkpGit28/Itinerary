@@ -1,7 +1,14 @@
 'use client'
 
 import * as React from 'react'
-import { QuestionnaireShell } from '@/components/reality-check/QuestionnaireShell'
+import {
+  QuestionnaireShell,
+  SCROLL_REGION_ID,
+} from '@/components/reality-check/QuestionnaireShell'
+import {
+  SectionTransition,
+  lineForSection,
+} from '@/components/reality-check/SectionTransition'
 import { ProgressHeader } from '@/components/reality-check/ProgressHeader'
 import { QuestionNavigation } from '@/components/reality-check/QuestionNavigation'
 import { SectionIntro } from '@/components/reality-check/SectionIntro'
@@ -53,6 +60,17 @@ export default function RealityCheckPage() {
    * every remaining section.
    */
   const [editingFromReview, setEditingFromReview] = React.useState(false)
+  /** Non-null while the between-sections interstitial is showing. */
+  const [transitionLine, setTransitionLine] = React.useState<string | null>(null)
+  const transitionTimer = React.useRef<number | null>(null)
+
+  // Never leave a pending advance running after the page unmounts.
+  React.useEffect(
+    () => () => {
+      if (transitionTimer.current !== null) window.clearTimeout(transitionTimer.current)
+    },
+    []
+  )
 
   // ── Load any saved session ────────────────────────────────────────────────
   React.useEffect(() => {
@@ -98,9 +116,13 @@ export default function RealityCheckPage() {
   const { stage, sectionIndex, answers } = state
   const section = sectionIndex >= 0 ? SECTIONS[sectionIndex] : undefined
 
+  // Only the question list scrolls now, so reset that region rather than
+  // the window when the step changes.
   React.useEffect(() => {
     if (pendingFocus) return
-    window.scrollTo({ top: 0, behavior: 'auto' })
+    const region = document.getElementById(SCROLL_REGION_ID)
+    if (region) region.scrollTop = 0
+    else window.scrollTo({ top: 0, behavior: 'auto' })
   }, [stage, sectionIndex, pendingFocus])
 
   // ── Derived values ────────────────────────────────────────────────────────
@@ -157,6 +179,9 @@ export default function RealityCheckPage() {
 
   function handleNext() {
     if (!section) return
+    // Ignore a second tap while the interstitial is on screen.
+    if (transitionLine) return
+
     const issues = validateSection(section.id, answers)
     setAttempted((prev) => ({ ...prev, [section.id]: true }))
 
@@ -165,11 +190,26 @@ export default function RealityCheckPage() {
       return
     }
 
-    if (editingFromReview || sectionIndex >= SECTIONS.length - 1) {
-      goToReview()
-    } else {
-      goToSection(sectionIndex + 1)
+    const advance = () => {
+      if (editingFromReview || sectionIndex >= SECTIONS.length - 1) goToReview()
+      else goToSection(sectionIndex + 1)
     }
+
+    // Going back to review after an edit is a correction, not progress —
+    // it does not get the celebratory pause.
+    if (editingFromReview) {
+      advance()
+      return
+    }
+
+    setTransitionLine(lineForSection(sectionIndex))
+    transitionTimer.current = window.setTimeout(
+      () => {
+        advance()
+        setTransitionLine(null)
+      },
+      prefersReducedMotion() ? 350 : 1150
+    )
   }
 
   function handleBack() {
@@ -292,6 +332,7 @@ export default function RealityCheckPage() {
   return (
     <QuestionnaireShell
       transitionKey={section.id}
+      overlay={transitionLine ? <SectionTransition line={transitionLine} /> : null}
       header={
         <ProgressHeader
           stepLabel={`Section ${section.index} of ${SECTIONS.length}`}

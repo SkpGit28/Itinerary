@@ -9,31 +9,39 @@ interface QuestionnaireShellProps {
   children: React.ReactNode
   /** Changing this key replays the section transition. */
   transitionKey?: string
+  /** Rendered above everything inside the shell, e.g. the section interstitial. */
+  overlay?: React.ReactNode
   className?: string
 }
 
+/** The id of the scrolling region, so callers can drive it directly. */
+export const SCROLL_REGION_ID = 'rc-main'
+
 /**
- * Page frame: sticky header, a comfortable centred reading column, and a
- * sticky navigation bar. The column is capped well short of full width on
- * desktop so questions stay easy to read.
+ * Page frame. The viewport is locked to exactly one screen and only the
+ * question list scrolls, so the progress header and the Back/Next bar stay
+ * visible and reachable at all times on a phone.
  */
 export function QuestionnaireShell({
   header,
   footer,
   children,
   transitionKey,
+  overlay,
   className,
 }: QuestionnaireShellProps) {
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-[var(--rc-bg)]">
-      <a href="#rc-main" className="rc-skip-link">
+    <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-[var(--rc-bg)]">
+      <a href={`#${SCROLL_REGION_ID}`} className="rc-skip-link">
         Skip to questions
       </a>
-      {header}
+
+      {header ? <div className="shrink-0">{header}</div> : null}
+
       <main
-        id="rc-main"
+        id={SCROLL_REGION_ID}
         tabIndex={-1}
-        className="flex-1 focus-visible:outline-none"
+        className="min-h-0 flex-1 overflow-y-auto focus-visible:outline-none"
         data-rc-scroll
       >
         <div
@@ -43,7 +51,10 @@ export function QuestionnaireShell({
           {children}
         </div>
       </main>
-      {footer}
+
+      {footer ? <div className="shrink-0">{footer}</div> : null}
+
+      {overlay}
     </div>
   )
 }

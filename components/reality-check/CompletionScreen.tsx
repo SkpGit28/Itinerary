@@ -116,7 +116,7 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
         </div>
 
         <h1 className="mt-5 text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-3xl">
-          Thank you for being honest.
+          Thank you for being honest, Nainu. ❤️
         </h1>
         <p className="mt-3 text-[1.0625rem] leading-relaxed text-[var(--rc-fg-muted)]">
           Your answers have been collected. Honest answers are more useful than perfect answers.

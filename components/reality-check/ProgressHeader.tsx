@@ -20,7 +20,7 @@ export function ProgressHeader({
   saveStatus,
 }: ProgressHeaderProps) {
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--rc-border)] bg-[var(--rc-bg)]/92 backdrop-blur-md">
+    <header className="z-30 border-b border-[var(--rc-border)] bg-[var(--rc-bg)]">
       <div className="mx-auto w-full max-w-2xl px-4 pb-2.5 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">

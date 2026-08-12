@@ -36,11 +36,11 @@ export function WelcomeScreen({
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col justify-center px-4 py-10 sm:px-6 sm:py-14">
       <h1 className="text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[var(--rc-fg)] sm:text-4xl">
-        Tell the truth about your relationship.
+        Nainu, tell the truth about us.
       </h1>
       <p className="mt-3.5 text-[1.0625rem] leading-relaxed text-[var(--rc-fg-muted)] sm:text-lg">
-        This questionnaire is designed to understand what being in this relationship actually feels
-        like for you.
+        These questions are here to understand what being with Sush actually feels like for you —
+        the good parts and the hard parts.
       </p>
 
       {hasSavedProgress ? (
@@ -90,7 +90,7 @@ export function WelcomeScreen({
       <div className="mt-7 rounded-2xl border border-[var(--rc-border)] bg-[var(--rc-surface)] p-4 sm:p-5">
         <p className="text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
           Some questions may feel uncomfortable. That&apos;s okay. Honest answers are more useful
-          than perfect answers.
+          than perfect answers. Jhooth mat bolna, please 🙂
         </p>
       </div>
 
