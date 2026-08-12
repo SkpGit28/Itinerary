@@ -57,7 +57,12 @@ async function saveToSheet(payload: Record<string, unknown>): Promise<Saved> {
   return { ok: false, where: 'sheet', detail: body.slice(0, 300) || 'unexpected reply' }
 }
 
-async function saveToSupabase(raw: string): Promise<Saved> {
+async function saveToSupabase(payload: Record<string, unknown>): Promise<Saved> {
+  /*
+   * Sirf wahi fields bhejo jo table me sach me hain. Poora payload jaise ka
+   * taisa bhejne pe PostgREST unknown column dekh ke poora insert hi thukra
+   * deta hai, isliye `rows` (jo Sheet ke liye banti hai) yahan nahi jaati.
+   */
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
     method: 'POST',
     headers: {
@@ -67,7 +72,16 @@ async function saveToSupabase(raw: string): Promise<Saved> {
       // Row wapas mangwane ki zaroorat nahi, aur RLS select allow bhi nahi karti.
       Prefer: 'return=minimal',
     },
-    body: raw,
+    body: JSON.stringify({
+      submitted_at: payload.submitted_at,
+      submission_id: payload.submission_id,
+      respondent: payload.respondent,
+      answers: payload.answers,
+      responses: payload.responses,
+      export_text: payload.export_text,
+      answered_count: payload.answered_count,
+      total_count: payload.total_count,
+    }),
   })
 
   if (response.ok) return { ok: true, where: 'supabase' }
@@ -116,7 +130,7 @@ export async function POST(request: Request) {
     if (sheet.ok) return NextResponse.json({ ok: true, saved_to: 'sheet' }, { status: 201 })
   }
 
-  const supabase = await saveToSupabase(raw).catch((): Saved => ({
+  const supabase = await saveToSupabase(payload).catch((): Saved => ({
     ok: false,
     where: 'supabase',
     detail: 'network',
