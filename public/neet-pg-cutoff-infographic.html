@@ -1,0 +1,532 @@
+<title>The Floor Fell Out — NEET-PG's Cut-Off Collapse</title>
+<style>
+  :root{
+    --ground:#EBEEEC;
+    --surface:#FCFCFB;
+    --surface-2:#F3F6F4;
+    --ink:#101F1C;
+    --ink-2:#33443F;
+    --muted:#5B6B67;
+    --rule:#D3DBD8;
+    --rule-soft:#E2E8E5;
+    --govt:#008E77;
+    --pvt:#B96411;
+    --alert:#A32218;
+    --panel:#0C1412;
+    --panel-ink:#E9F0ED;
+    --panel-muted:#8FA39E;
+    --panel-rule:#233330;
+    --panel-govt:#12A88F;
+    --panel-pvt:#CC7B27;
+    --panel-alert:#E0685C;
+    --shadow:0 1px 2px rgba(16,31,28,.05), 0 8px 24px -16px rgba(16,31,28,.28);
+
+    --display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --body:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","IBM Plex Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#080F0E;
+      --surface:#111917;
+      --surface-2:#16201E;
+      --ink:#E9F0ED;
+      --ink-2:#C3D0CC;
+      --muted:#93A5A0;
+      --rule:#25332F;
+      --rule-soft:#1C2825;
+      --govt:#12A88F;
+      --pvt:#CC7B27;
+      --alert:#E0685C;
+      --panel:#0C1412;
+      --panel-ink:#E9F0ED;
+      --panel-muted:#8FA39E;
+      --panel-rule:#233330;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#080F0E;
+    --surface:#111917;
+    --surface-2:#16201E;
+    --ink:#E9F0ED;
+    --ink-2:#C3D0CC;
+    --muted:#93A5A0;
+    --rule:#25332F;
+    --rule-soft:#1C2825;
+    --govt:#12A88F;
+    --pvt:#CC7B27;
+    --alert:#E0685C;
+    --panel:#0C1412;
+    --panel-ink:#E9F0ED;
+    --panel-muted:#8FA39E;
+    --panel-rule:#233330;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1020px;margin:0 auto;padding:0 24px 96px;}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;line-height:1.12;}
+  p{margin:0;}
+  a{color:inherit;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--panel);
+    color:var(--panel-ink);
+    padding:52px 0 0;
+    border-bottom:1px solid var(--panel-rule);
+  }
+  .hero-inner{max-width:1020px;margin:0 auto;padding:0 24px;}
+  .hero .eyebrow{color:var(--panel-muted);}
+  .hero h1{
+    font-size:clamp(40px,7.2vw,76px);
+    letter-spacing:-.02em;
+    margin:18px 0 0;
+    max-width:16ch;
+  }
+  .hero-lede{
+    margin-top:20px;
+    max-width:62ch;
+    color:var(--panel-muted);
+    font-size:clamp(16px,2vw,19px);
+    line-height:1.62;
+  }
+  .hero-lede strong{color:var(--panel-ink);font-weight:600;}
+  .trace-figure{margin:34px 0 0;padding-bottom:8px;overflow-x:auto;}
+  .trace-figure svg{display:block;min-width:640px;width:100%;height:auto;}
+  .trace-caption{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
+    color:var(--panel-muted);text-transform:uppercase;
+    padding:0 0 26px;
+  }
+
+  /* ---------- source strip ---------- */
+  .strip{
+    background:var(--surface-2);
+    border-bottom:1px solid var(--rule);
+    font-size:14px;
+    color:var(--muted);
+  }
+  .strip-inner{max-width:1020px;margin:0 auto;padding:14px 24px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;}
+  .strip b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+
+  /* ---------- sections ---------- */
+  section{padding-top:64px;}
+  .sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
+  .sec-head h2{font-size:clamp(26px,3.6vw,38px);letter-spacing:-.015em;max-width:22ch;}
+  .sec-head p{color:var(--muted);max-width:64ch;font-size:16px;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    padding:26px 28px;
+  }
+  .grid{display:grid;gap:16px;}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:760px){.g3,.g2{grid-template-columns:1fr;}}
+
+  /* stat tiles */
+  .stat .k{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);display:block;margin-bottom:12px;
+  }
+  .stat .v{
+    font-family:var(--display);
+    font-size:clamp(38px,5.4vw,54px);
+    line-height:1;
+    letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;
+    display:block;
+  }
+  .stat .u{font-size:15px;color:var(--muted);margin-top:12px;display:block;line-height:1.5;}
+  .v.govt{color:var(--govt);}
+  .v.pvt{color:var(--pvt);}
+  .v.alert{color:var(--alert);}
+
+  /* dumbbell */
+  .dumb{display:flex;flex-direction:column;gap:0;}
+  .dumb-row{
+    display:grid;
+    grid-template-columns:minmax(140px,1.1fr) minmax(280px,3fr);
+    gap:24px;
+    align-items:center;
+    padding:22px 0;
+    border-top:1px solid var(--rule-soft);
+  }
+  .dumb-row:first-child{border-top:0;}
+  .dumb-label b{display:block;font-size:16px;font-weight:600;}
+  .dumb-label span{font-size:13.5px;color:var(--muted);}
+  .dumb-plot{overflow-x:auto;}
+  .dumb-plot svg{display:block;min-width:300px;width:100%;height:auto;}
+  @media (max-width:640px){.dumb-row{grid-template-columns:1fr;gap:12px;}}
+
+  /* bars */
+  .bars{display:flex;flex-direction:column;gap:14px;}
+  .bar-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr minmax(72px,auto);gap:14px;align-items:center;}
+  .bar-name{font-size:14.5px;color:var(--ink-2);}
+  .bar-track{background:var(--surface-2);border-radius:4px;height:22px;position:relative;overflow:hidden;border:1px solid var(--rule-soft);}
+  .bar-fill{display:block;height:100%;border-radius:0 4px 4px 0;transition:filter .18s ease;}
+  .bar-row:hover .bar-fill{filter:saturate(1.25) brightness(1.06);}
+  .bar-val{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;text-align:right;color:var(--ink);}
+
+  /* split bar */
+  .split{display:flex;height:52px;border-radius:4px;overflow:hidden;gap:2px;background:var(--surface-2);}
+  .split div{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;font-size:14px;color:var(--ink-2);}
+  .legend span{display:flex;align-items:center;gap:8px;}
+  .dot{width:11px;height:11px;border-radius:2px;flex:none;}
+
+  /* quote / verdict cards */
+  .case{border-left:3px solid var(--alert);padding-left:18px;}
+  .case .score{
+    font-family:var(--display);font-size:38px;line-height:1;letter-spacing:-.02em;
+    color:var(--alert);font-variant-numeric:tabular-nums;
+  }
+  .case p{font-size:15px;color:var(--ink-2);margin-top:10px;}
+  .case .src{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:12px;display:block;}
+
+  .claim{display:grid;gap:8px;}
+  .claim .tag{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 9px;border-radius:3px;justify-self:start;
+  }
+  .tag.pvt{background:color-mix(in srgb, var(--pvt) 14%, transparent);color:var(--pvt);}
+  .tag.govt{background:color-mix(in srgb, var(--govt) 14%, transparent);color:var(--govt);}
+  .claim h3{font-size:19px;letter-spacing:-.01em;}
+  .claim p{font-size:15px;color:var(--ink-2);}
+
+  table{width:100%;border-collapse:collapse;font-size:15px;}
+  .table-wrap{overflow-x:auto;}
+  th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--rule-soft);}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:400;}
+  td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;}
+  tbody tr:last-child td{border-bottom:0;}
+
+  .note{font-size:13.5px;color:var(--muted);line-height:1.55;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  footer{margin-top:72px;padding-top:28px;border-top:1px solid var(--rule);}
+  footer h3{font-size:16px;margin-bottom:14px;}
+  footer ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.85;}
+
+  @media (prefers-reduced-motion: no-preference){
+    .trace-path{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.1s cubic-bezier(.65,.02,.35,1) .25s forwards;}
+    .trace-dot{opacity:0;animation:pop .4s ease forwards;}
+    .trace-dot.d1{animation-delay:.9s;} .trace-dot.d2{animation-delay:1.5s;} .trace-dot.d3{animation-delay:2.1s;}
+    @keyframes draw{to{stroke-dashoffset:0;}}
+    @keyframes pop{to{opacity:1;}}
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">NEET-PG 2025 counselling · Cut-off revision of 13 January 2026</p>
+    <h1>The floor fell out</h1>
+    <p class="hero-lede">To fill roughly <strong>20,000 empty postgraduate medical seats</strong>, India cut the NEET-PG qualifying bar to the 7th percentile for general candidates and to <strong>zero</strong> for SC, ST and OBC candidates. Nearly <strong>96,000 more doctors</strong> instantly became eligible. The seats got filled. The argument is over who the filling was really for.</p>
+
+    <figure class="trace-figure">
+      <svg viewBox="0 0 960 220" role="img" aria-label="Line showing the NEET-PG qualifying percentile falling from the 50th percentile to the 7th for general candidates and to zero for SC, ST and OBC candidates.">
+        <defs>
+          <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--panel-alert)" stop-opacity=".55"/>
+            <stop offset=".55" stop-color="var(--panel-alert)" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="40" x2="960" y2="40" stroke="var(--panel-rule)" stroke-width="1"/>
+        <line x1="0" y1="160" x2="960" y2="160" stroke="var(--panel-rule)" stroke-width="1"/>
+        <line x1="0" y1="190" x2="960" y2="190" stroke="var(--panel-rule)" stroke-width="1"/>
+        <path class="trace-path"
+              d="M0,40 L300,40 L318,40 L330,18 L344,62 L356,40 L470,40 L520,160 L620,160 L640,160 L652,140 L664,176 L676,160 L760,160 L800,190 L960,190"
+              fill="none" stroke="url(#fade)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle class="trace-dot d1" cx="300" cy="40" r="5" fill="var(--panel-alert)"/>
+        <circle class="trace-dot d2" cx="620" cy="160" r="5" fill="var(--panel-alert)"/>
+        <circle class="trace-dot d3" cx="850" cy="190" r="5" fill="var(--panel-alert)"/>
+        <text class="trace-dot d1" x="16" y="30" fill="var(--panel-muted)" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1.4">50TH PERCENTILE · 276 MARKS</text>
+        <text class="trace-dot d2" x="478" y="150" fill="var(--panel-muted)" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1.4">7TH · 103 MARKS</text>
+        <text class="trace-dot d3" x="810" y="212" fill="var(--panel-alert)" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1.4">ZERO · −40 MARKS</text>
+      </svg>
+      <figcaption class="trace-caption">The qualifying bar, out of 800 marks — before, after, and after that</figcaption>
+    </figure>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="strip-inner">
+    <b>Reading note</b>
+    <span>The Times of India report behind this page could not be retrieved from this machine, so every figure below is drawn from other published reporting on the same episode and is sourced at the foot of the page. Numbers TOI may have computed itself are not reproduced here.</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">What actually changed</p>
+      <h2>One notification moved the bar by four-fifths</h2>
+      <p>NBEMS revised the qualifying percentile for Round 3 of counselling. The general-category threshold fell from 276 marks to 103. For reserved categories it fell below zero — a candidate could finish with a negative score and still qualify.</p>
+    </div>
+
+    <div class="card dumb">
+      <div class="dumb-row">
+        <div class="dumb-label"><b>General &amp; EWS</b><span>276 → 103 marks</span></div>
+        <div class="dumb-plot">
+          <svg viewBox="0 0 600 56" role="img" aria-label="General and EWS qualifying percentile fell from the 50th to the 7th.">
+            <line x1="146" y1="28" x2="490" y2="28" stroke="var(--alert)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="490" cy="28" r="8" fill="var(--muted)"/>
+            <circle cx="146" cy="28" r="8" fill="var(--alert)"/>
+            <text x="134" y="33" text-anchor="end" fill="var(--alert)" font-family="ui-monospace,monospace" font-size="15" font-weight="600">7th</text>
+            <text x="504" y="33" fill="var(--muted)" font-family="ui-monospace,monospace" font-size="15">50th</text>
+          </svg>
+        </div>
+      </div>
+      <div class="dumb-row">
+        <div class="dumb-label"><b>SC, ST &amp; OBC</b><span>235 → −40 marks</span></div>
+        <div class="dumb-plot">
+          <svg viewBox="0 0 600 56" role="img" aria-label="SC, ST and OBC qualifying percentile fell from the 40th to zero.">
+            <line x1="90" y1="28" x2="410" y2="28" stroke="var(--alert)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="410" cy="28" r="8" fill="var(--muted)"/>
+            <circle cx="90" cy="28" r="8" fill="var(--alert)"/>
+            <text x="78" y="33" text-anchor="end" fill="var(--alert)" font-family="ui-monospace,monospace" font-size="15" font-weight="600">0</text>
+            <text x="424" y="33" fill="var(--muted)" font-family="ui-monospace,monospace" font-size="15">40th</text>
+          </svg>
+        </div>
+      </div>
+      <div class="dumb-row">
+        <div class="dumb-label"><b>General — PwD</b><span>→ 90 marks</span></div>
+        <div class="dumb-plot">
+          <svg viewBox="0 0 600 56" role="img" aria-label="General PwD qualifying percentile fell from the 45th to the 5th.">
+            <line x1="130" y1="28" x2="450" y2="28" stroke="var(--alert)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="450" cy="28" r="8" fill="var(--muted)"/>
+            <circle cx="130" cy="28" r="8" fill="var(--alert)"/>
+            <text x="118" y="33" text-anchor="end" fill="var(--alert)" font-family="ui-monospace,monospace" font-size="15" font-weight="600">5th</text>
+            <text x="464" y="33" fill="var(--muted)" font-family="ui-monospace,monospace" font-size="15">45th</text>
+          </svg>
+        </div>
+      </div>
+      <p class="note" style="margin-top:18px;padding-top:18px;border-top:1px solid var(--rule-soft);">Plotted on the percentile scale — <b>red dot</b> = the revised bar, <b>grey dot</b> = the bar it replaced. Equivalent marks are out of 800.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The pool</p>
+      <h2>The eligible list grew by three-quarters overnight</h2>
+    </div>
+    <div class="grid g3">
+      <div class="card stat">
+        <span class="k">Eligible before</span>
+        <span class="v">1,28,116</span>
+        <span class="u">candidates cleared the original percentile</span>
+      </div>
+      <div class="card stat">
+        <span class="k">Eligible after</span>
+        <span class="v">2,24,029</span>
+        <span class="u">candidates cleared the revised percentile</span>
+      </div>
+      <div class="card stat">
+        <span class="k">Newly eligible</span>
+        <span class="v alert">+95,913</span>
+        <span class="u">a 75% expansion of the pool, told to the Supreme Court by the government's own counsel</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The problem it was meant to solve</p>
+      <h2>Nearly a third of the central pool was sitting empty</h2>
+      <p>After two rounds of All India Quota counselling, thousands of MD and MS seats had no takers. Counting DNB and state-quota seats, the government put the national shortfall at close to 20,000.</p>
+    </div>
+
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:14px;">All India Quota seats offered for counselling — 29,476</p>
+      <div class="split" role="img" aria-label="Of 29,476 All India Quota seats, 19,855 were filled after two rounds and 9,621 were vacant.">
+        <div style="flex:19855;background:var(--govt);"></div>
+        <div style="flex:9621;background:var(--alert);"></div>
+      </div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--govt);"></i> Filled after two rounds — 19,855 (67.4%)</span>
+        <span><i class="dot" style="background:var(--alert);"></i> Vacant — 9,621 (32.6%)</span>
+      </div>
+      <p class="note" style="margin-top:18px;">Of those 9,621 empty AIQ seats, <b>5,213 were in government colleges</b> (including DNB seats) — which is precisely why the "who benefits" question is contested. See below.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">What the drop produced</p>
+      <h2>Round 3, after the bar came down</h2>
+    </div>
+    <div class="grid g3">
+      <div class="card stat">
+        <span class="k">Fresh allotments</span>
+        <span class="v govt">10,084</span>
+        <span class="u">candidates allotted a seat in Round 3</span>
+      </div>
+      <div class="card stat">
+        <span class="k">Upgrades</span>
+        <span class="v">8,589</span>
+        <span class="u">existing allottees moved to a better seat</span>
+      </div>
+      <div class="card stat">
+        <span class="k">Still vacant at the end</span>
+        <span class="v">1,140</span>
+        <span class="u">seats unfilled even after the stray round, per the Centre's reply in the Rajya Sabha</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <p class="eyebrow" style="margin-bottom:6px;">Of the Round 3 entrants, 2,123 scored below the old cut-off</p>
+      <p class="note" style="margin-bottom:20px;">These are the doctors who exist in the system only because the bar moved — reported category-wise as follows.</p>
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-name">General</span>
+          <span class="bar-track"><span class="bar-fill" style="width:100%;background:var(--pvt);"></span></span>
+          <span class="bar-val">965</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-name">OBC</span>
+          <span class="bar-track"><span class="bar-fill" style="width:55.1%;background:var(--pvt);"></span></span>
+          <span class="bar-val">532</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-name">SC</span>
+          <span class="bar-track"><span class="bar-fill" style="width:28%;background:var(--pvt);"></span></span>
+          <span class="bar-val">270</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-name">ST</span>
+          <span class="bar-track"><span class="bar-fill" style="width:17.7%;background:var(--pvt);"></span></span>
+          <span class="bar-val">171</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-name">EWS</span>
+          <span class="bar-track"><span class="bar-fill" style="width:9.5%;background:var(--pvt);"></span></span>
+          <span class="bar-val">92</span>
+        </div>
+      </div>
+      <p class="note" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--rule-soft);">The general category took <b>45.5%</b> of these seats — the largest single share — even though its revised bar (7th percentile) stayed higher than the reserved-category bar (zero). The reported category counts sum to 2,030, short of the reported 2,123 total; the balance is not broken out in the published figures.</p>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <p class="eyebrow" style="margin-bottom:14px;">Conversion rate among the newly eligible</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th class="num">Newly eligible</th><th class="num">Seats secured</th><th class="num">Converted</th></tr></thead>
+          <tbody>
+            <tr><td>General</td><td class="num">41,918</td><td class="num">965</td><td class="num">2.3%</td></tr>
+            <tr><td>OBC</td><td class="num">32,664</td><td class="num">532</td><td class="num">1.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:16px;">For the overwhelming majority of the 96,000 newly eligible doctors, the cut-off drop changed nothing. It made them eligible for seats they could not afford or did not want.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The contested part</p>
+      <h2>Who the empty seats actually belonged to</h2>
+      <p>The headline claim is that private colleges gained more than government ones. The evidence pulls in two directions, and both directions are worth seeing.</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="card claim">
+        <span class="tag pvt">The case for private colleges gaining</span>
+        <h3>The vacancies were built by private expansion</h3>
+        <p>PG capacity in private institutions grew from roughly <b>36,000 to nearly 64,000 seats</b> without matching demand — a surplus that had to be filled somehow. Deemed universities, almost all private and the most expensive tier, carry the heaviest concentration of unfilled seats per institution. In several state matrices going into Round 3, more than <b>90%</b> of what was left on the table sat in private colleges. Seats that stay empty earn a private college nothing; a lower bar converts them into fee-paying students.</p>
+      </div>
+      <div class="card claim">
+        <span class="tag govt">The case that government colleges gained too</span>
+        <h3>More than half the central vacancies were public</h3>
+        <p>Of the 9,621 AIQ seats lying vacant after Round 2, <b>5,213 were in government colleges</b> and DNB institutions — a clear majority. Deemed universities' aggregate share of vacancies was slightly <em>lower</em> than that of state colleges, the largest cohort in central counselling. Government institutes were set to gain alongside private ones, and by the widely reported cases, they did: low scorers entered public medical colleges too.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <p class="note"><b>How to hold both:</b> government colleges held the larger raw block of vacancies inside the central pool, while private and deemed institutions dominate the seat matrix overall — and are the tier whose finances depend on filling seats. The disagreement is largely about which denominator you use, which is why the same episode reads as a rescue of public capacity in one account and a bailout of private capacity in another.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">On the ground</p>
+      <h2>What a zero percentile looks like in practice</h2>
+    </div>
+    <div class="grid g3">
+      <div class="card case">
+        <p class="score">5</p>
+        <p>marks in NEET-PG — admitted to a <b>government</b> medical college.</p>
+        <span class="src">Reported by The South First</span>
+      </div>
+      <div class="card case">
+        <p class="score">−12</p>
+        <p>marks — a negative score — and a postgraduate medical seat.</p>
+        <span class="src">Reported by The South First</span>
+      </div>
+      <div class="card case">
+        <p class="score">1</p>
+        <p>mark — allotted <b>MS Orthopaedics</b> under Telangana state-quota counselling.</p>
+        <span class="src">Reported by The South First</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The fight over it</p>
+      <h2>Three positions, one Supreme Court bench</h2>
+    </div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Who</th><th>Position</th></tr></thead>
+          <tbody>
+            <tr><td style="width:26%;"><b>The Centre</b></td><td>The reduction did not alter merit — it only expanded the eligible pool. Ranks and the order of selection were untouched; 95,913 more candidates simply entered the queue.</td></tr>
+            <tr><td><b>NBEMS</b></td><td>The decision to cut the percentile came from the Union Health Ministry, not from the examining body, it told the Supreme Court.</td></tr>
+            <tr><td><b>Medical educators</b></td><td>Without adequate faculty, reliable exit examinations and real clinical exposure, lowering the entry bar risks degrading specialist training — and, downstream, patient care and public trust.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The through-line</p>
+      <h2>A supply problem answered with an eligibility fix</h2>
+      <p>Empty PG seats are mostly a price and placement problem: high private fees, unloved non-clinical branches, and colleges in towns candidates don't want. Lowering the qualifying score does not make a seat cheaper or a branch more attractive — it only enlarges the set of people permitted to buy in. That is why 96,000 became eligible and roughly 2,000 of them actually converted.</p>
+    </div>
+  </section>
+
+  <footer>
+    <h3>Sources &amp; caveats</h3>
+    <ul>
+      <li>Figures compiled from published reporting by <b>The South First</b>, <b>ThePrint</b>, <b>The Federal</b>, <b>Careers360</b> and <b>Medical Dialogues</b> on the NEET-PG 2025 counselling cut-off revision of 13 January 2026, and from the Centre's submissions to the Supreme Court and the Rajya Sabha.</li>
+      <li>The Times of India article "Pvt more than govt colleges gain from NEET-PG cut-off drop" could not be fetched from the machine that built this page. Nothing here is attributed to it, and any analysis unique to that report is not represented.</li>
+      <li>Published totals are not fully reconciled across outlets: Round 3 fresh allotments appear as both 10,084 and 10,086, and the category counts of sub-cut-off entrants sum to 2,030 against a stated total of 2,123. Both discrepancies are shown as reported rather than smoothed over.</li>
+      <li>"Vacant" counts vary by scope — All India Quota only (9,621) versus the national figure including DNB and state quota (~18,000–20,000). Each chart states its scope.</li>
+    </ul>
+  </footer>
+</div>
