@@ -59,7 +59,7 @@ export function ConfirmDialog({
               }}
               className="flex h-12 flex-1 items-center justify-center rounded-2xl px-4 text-[0.9375rem] font-semibold text-white transition-opacity hover:opacity-90"
               style={{
-                backgroundColor: destructive ? 'var(--rc-error)' : 'var(--rc-accent)',
+                backgroundColor: destructive ? 'var(--rc-error)' : 'var(--rc-cta)',
               }}
             >
               {confirmLabel}

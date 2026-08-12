@@ -62,7 +62,7 @@ export function WelcomeScreen({
             <button
               type="button"
               onClick={onResume}
-              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--rc-accent)] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
+              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--rc-cta)] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-cta-hover)]"
             >
               Aage badho
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -106,7 +106,7 @@ export function WelcomeScreen({
       {/*
         Ye card CTA ke bilkul upar hai, isliye page se saaf alag dikhna
         chahiye. Surface-muted page ke background jaisa hi lag raha tha,
-        isliye ab brand ka halka green tint aur uske hisaab ka border.
+        isliye ab brand ka halka pink tint aur uske hisaab ka border.
       */}
       <figure className="mt-5 flex gap-3.5 rounded-3xl border border-[var(--rc-accent-border)] bg-[var(--rc-accent-soft)] px-5 py-5">
         <span
@@ -120,7 +120,7 @@ export function WelcomeScreen({
             Kuch sawaal thode chubh sakte hain. Koi baat nahi. Perfect jawab ki zaroorat nahi hai,
             bas sachhe jawab chahiye.
           </p>
-          <p className="rc-hand mt-2.5 text-[1.35rem] leading-snug text-[var(--rc-accent)]">
+          <p className="rc-hand mt-2.5 text-[1.35rem] leading-snug text-[var(--rc-accent-text)]">
             Jo genuinely feel hota hai, wahi likhna. 🙂
           </p>
         </blockquote>
@@ -130,7 +130,7 @@ export function WelcomeScreen({
         <button
           type="button"
           onClick={onStart}
-          className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--rc-accent)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
+          className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--rc-cta)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-cta-hover)]"
         >
           Chalo shuru karte hain
           <ArrowRight className="h-[18px] w-[18px]" aria-hidden="true" />

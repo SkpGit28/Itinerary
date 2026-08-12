@@ -6,27 +6,40 @@
  */
 
 .rc-root {
-  --rc-bg: #f6f5f2;
-  --rc-surface: #ffffff;
-  --rc-surface-muted: #fbfaf8;
-  --rc-fg: #191917;
-  --rc-fg-muted: #63625c;
-  --rc-fg-subtle: #86857e;
-  --rc-border: #e6e3dd;
-  --rc-border-strong: #d3cfc7;
-  --rc-accent: #3c6e63;
-  --rc-accent-hover: #335d54;
-  --rc-accent-soft: #edf3f1;
-  --rc-accent-border: #a9c5be;
-  --rc-error: #b4413c;
-  --rc-error-soft: #fbf1f0;
-  --rc-error-border: #e5c3c1;
+  /*
+   * Brand palette. Saare rang yahin se aate hain, isliye ek jagah badalne se
+   * poora questionnaire badal jaata hai, sirf home screen nahi.
+   */
+  --rc-bg: #fdeef2; /* Canvas Background */
+  --rc-surface: #fff9fb; /* Card Surface */
+  --rc-surface-muted: #fef4f7; /* bg aur surface ke beech ka halka tone */
+  --rc-fg: #381320; /* Primary Title */
+  --rc-fg-muted: #633b4b; /* Secondary Text */
+  --rc-fg-subtle: #8a5c6c; /* Secondary ka halka roop, chhoti lines ke liye */
+  --rc-border: #f6dce4;
+  --rc-border-strong: #ebbfce;
+
+  /* Icons, selected states, progress, focus ring. */
+  --rc-accent: #d82b59; /* Icon Pink Accent */
+  --rc-accent-hover: #c21849;
+  --rc-accent-soft: #fad5e0; /* Icon Circle Tint */
+  --rc-accent-border: #f4c2d2;
+
+  /* Bade primary buttons ka apna alag, thoda aur chamakdaar pink. */
+  --rc-cta: #ee3868; /* Primary CTA Pink */
+  --rc-cta-hover: #d82b59;
+
+  /* Handwriting aur callout lines. */
+  --rc-accent-text: #c21849; /* Callout Accent Text */
 
   /*
-   * Tokens only, no background or color here. The sheet and dialog contents
-   * are portaled to <body>, so they carry .rc-root purely to pick up these
-   * variables; painting here would override their own surface colours.
+   * Error ko jaan boojh ke thoda garam aur gehra rakha hai, taaki brand ke
+   * pink se alag pehchana jaye. Rang ke alawa icon aur text bhi hota hai.
    */
+  --rc-error: #a32b2b;
+  --rc-error-soft: #fde8e4;
+  --rc-error-border: #f0c2b6;
+
   color-scheme: light;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

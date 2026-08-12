@@ -137,7 +137,7 @@ export function ReviewScreen({
       <button
         type="button"
         onClick={onSubmit}
-        className="flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl bg-[var(--rc-accent)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
+        className="flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl bg-[var(--rc-cta)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-cta-hover)]"
       >
         Bhej do
       </button>

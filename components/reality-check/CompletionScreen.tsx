@@ -123,7 +123,7 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
         <p className="mt-4 text-[1.0625rem] leading-[1.65] text-[var(--rc-fg-muted)]">
           Sab jawab mil gaye. Sachhe jawab hamesha perfect jawab se zyada kaam ke hote hain.
         </p>
-        <p className="rc-hand mt-3 text-[1.35rem] leading-snug text-[var(--rc-accent)]">
+        <p className="rc-hand mt-3 text-[1.35rem] leading-snug text-[var(--rc-accent-text)]">
           Sach me, ye chhoti baat nahi thi.
         </p>
 
@@ -135,7 +135,7 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
               'flex min-h-[3.5rem] items-center justify-center gap-2 rounded-2xl text-base font-semibold text-white transition-colors',
               copyState === 'failed'
                 ? 'bg-[var(--rc-error)]'
-                : 'bg-[var(--rc-accent)] hover:bg-[var(--rc-accent-hover)]'
+                : 'bg-[var(--rc-cta)] hover:bg-[var(--rc-cta-hover)]'
             )}
           >
             {copyState === 'done' ? (

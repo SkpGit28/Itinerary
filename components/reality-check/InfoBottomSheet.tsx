@@ -94,7 +94,7 @@ export function InfoBottomSheet({
             </div>
           </div>
 
-          <Dialog.Close className="mt-7 flex h-12 w-full items-center justify-center rounded-2xl bg-[var(--rc-accent)] text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]">
+          <Dialog.Close className="mt-7 flex h-12 w-full items-center justify-center rounded-2xl bg-[var(--rc-cta)] text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-cta-hover)]">
             Samajh gayi
           </Dialog.Close>
         </Dialog.Content>

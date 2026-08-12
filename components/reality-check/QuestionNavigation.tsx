@@ -51,7 +51,7 @@ export function QuestionNavigation({
         <button
           type="button"
           onClick={onNext}
-          className="flex h-12 min-w-[7rem] shrink-0 items-center justify-center gap-2 rounded-2xl bg-[var(--rc-accent)] px-6 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
+          className="flex h-12 min-w-[7rem] shrink-0 items-center justify-center gap-2 rounded-2xl bg-[var(--rc-cta)] px-6 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-cta-hover)]"
         >
           {nextLabel}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
