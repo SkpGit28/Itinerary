@@ -355,7 +355,7 @@ export default function RealityCheckPage() {
         />
       }
     >
-      <div className="space-y-3.5">
+      <div className="space-y-4">
         <SectionIntro section={section} questionCount={sectionQuestions.length} />
 
         {sectionQuestions.map((question) => (

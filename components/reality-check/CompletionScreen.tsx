@@ -4,6 +4,7 @@ import * as React from 'react'
 import { Check, Copy, Download, FileJson, Printer, RotateCcw, Share2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ConfirmDialog } from './ConfirmDialog'
+import { HandHeart } from './HandHeart'
 import { PrivacyNotice } from './PrivacyNotice'
 import {
   buildJsonExport,
@@ -106,23 +107,27 @@ export function CompletionScreen({ answers, completedAt, onStartAgain }: Complet
     'flex min-h-[3.25rem] items-center justify-center gap-2 rounded-2xl border border-[var(--rc-border)] bg-[var(--rc-surface)] px-4 text-[0.9375rem] font-medium text-[var(--rc-fg)] transition-colors hover:bg-[var(--rc-surface-muted)]'
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
+    <div className="mx-auto w-full max-w-lg px-5 py-12 sm:px-6 sm:py-16">
       <div className="rc-no-print">
         <div
           aria-hidden="true"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--rc-accent-soft)]"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--rc-accent-soft)]"
         >
-          <Check className="h-5 w-5 text-[var(--rc-accent)]" strokeWidth={2.5} />
+          <Check className="h-6 w-6 text-[var(--rc-accent)]" strokeWidth={2.4} />
         </div>
 
-        <h1 className="mt-5 text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-3xl">
-          Thank you Nainu, sach bolne ke liye. ❤️
+        <h1 className="mt-6 text-[1.875rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[var(--rc-fg)] sm:text-[2.25rem]">
+          Thank you Nainu, sach bolne ke liye.{' '}
+          <HandHeart className="inline-block h-[0.8em] w-[0.8em] align-baseline text-[var(--rc-accent)]" />
         </h1>
-        <p className="mt-3 text-[1.0625rem] leading-relaxed text-[var(--rc-fg-muted)]">
+        <p className="mt-4 text-[1.0625rem] leading-[1.65] text-[var(--rc-fg-muted)]">
           Sab jawab mil gaye. Sachhe jawab hamesha perfect jawab se zyada kaam ke hote hain.
         </p>
+        <p className="rc-hand mt-3 text-[1.35rem] leading-snug text-[var(--rc-accent)]">
+          Sach me, ye chhoti baat nahi thi.
+        </p>
 
-        <div className="mt-8 grid gap-2.5">
+        <div className="mt-9 grid gap-2.5">
           <button
             type="button"
             onClick={handleCopy}

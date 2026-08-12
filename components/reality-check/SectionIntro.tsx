@@ -24,22 +24,29 @@ export function SectionIntro({ section, questionCount }: SectionIntroProps) {
           : 'border-[var(--rc-border)] bg-[var(--rc-surface)]'
       )}
     >
-      <p
-        className={cn(
-          'text-xs font-semibold uppercase tracking-[0.1em]',
-          section.emphasis ? 'text-[var(--rc-accent)]' : 'text-[var(--rc-fg-subtle)]'
-        )}
-      >
-        Section {section.index} / 9
-      </p>
-      <h2 className="mt-2 text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-2xl">
+      <div className="flex items-center gap-3">
+        <span
+          aria-hidden="true"
+          className={cn(
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[0.9375rem] font-semibold tabular-nums',
+            section.emphasis
+              ? 'bg-[var(--rc-accent)] text-white'
+              : 'bg-[var(--rc-accent-soft)] text-[var(--rc-accent)]'
+          )}
+        >
+          {section.index}
+        </span>
+        {/* Header pehle hi "Section 1 / 9" dikha raha hai, isliye yahan sirf
+            sawaalon ki ginti, warna teen jagah wahi cheez repeat hoti. */}
+        <p className="text-xs font-medium tracking-[0.02em] text-[var(--rc-fg-subtle)]">
+          Is section me {questionCount} sawaal
+        </p>
+      </div>
+      <h2 className="mt-4 text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-[var(--rc-fg)] sm:text-2xl">
         {section.title}
       </h2>
-      <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
+      <p className="mt-2.5 text-[0.9375rem] leading-[1.65] text-[var(--rc-fg-muted)]">
         {section.description}
-      </p>
-      <p className="mt-3 text-xs text-[var(--rc-fg-subtle)]">
-        Is section me {questionCount} sawaal
       </p>
     </header>
   )

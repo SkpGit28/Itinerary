@@ -1,8 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import { ArrowRight, Clock, RotateCcw } from 'lucide-react'
+import { ArrowRight, Clock, Heart, MessageSquareText, PenLine, RotateCcw } from 'lucide-react'
 import { ConfirmDialog } from './ConfirmDialog'
+import { HandHeart } from './HandHeart'
 import { PrivacyNotice } from './PrivacyNotice'
 
 interface WelcomeScreenProps {
@@ -16,12 +17,21 @@ interface WelcomeScreenProps {
 }
 
 const GROUND_RULES = [
-  'Koi jawab sahi ya galat nahi hai',
-  'Aaram se, koi jaldi nahi',
-  'Jo sach me hota hai wahi likhna',
-  'Kisi ka dil bachane ki zaroorat nahi, mera bhi nahi',
-  'Optional wale sawaal chhod sakti ho',
-  'Yahan koi judge nahi kar raha',
+  {
+    icon: Heart,
+    title: 'Sach bolna.',
+    body: 'Kisi baat ko asli se accha dikhane ki zaroorat nahi hai.',
+  },
+  {
+    icon: MessageSquareText,
+    title: 'Apne experience se batana.',
+    body: 'Soch ke likhna ki hum dono ke beech asli me hota kya hai.',
+  },
+  {
+    icon: PenLine,
+    title: 'Jo nahi likhna, chhod dena.',
+    body: 'Optional wale sawaal aaram se skip kar sakti ho.',
+  },
 ]
 
 export function WelcomeScreen({
@@ -34,24 +44,26 @@ export function WelcomeScreen({
   const [confirmOpen, setConfirmOpen] = React.useState(false)
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col justify-center px-4 py-10 sm:px-6 sm:py-14">
-      <h1 className="text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[var(--rc-fg)] sm:text-4xl">
-        Nainu, sach sach bata do.
+    <div className="mx-auto flex min-h-[100dvh] w-full max-w-lg flex-col justify-center px-5 py-12 sm:px-6 sm:py-16">
+      <h1 className="text-[2rem] font-semibold leading-[1.12] tracking-[-0.03em] text-[var(--rc-fg)] sm:text-[2.5rem]">
+        Nainu, please help me, sab sach batana.{' '}
+        <HandHeart className="inline-block h-[0.8em] w-[0.8em] align-baseline text-[var(--rc-accent)]" />
       </h1>
-      <p className="mt-3.5 text-[1.0625rem] leading-relaxed text-[var(--rc-fg-muted)] sm:text-lg">
-        Ye sawaal sirf ye samajhne ke liye hain ki Sush ke saath rehna tumhe asli me kaisa lagta
-        hai. Acchi baatein bhi, mushkil bhi.
+
+      <p className="mt-4 text-[1.0625rem] leading-[1.65] text-[var(--rc-fg-muted)]">
+        Koi jawab sahi ya galat nahi hai. Bas ye batana ki Sush ke saath rehna tumhe asli me kaisa
+        lagta hai, acchi baatein bhi aur mushkil bhi.
       </p>
 
       {hasSavedProgress ? (
-        <div className="mt-7 rounded-3xl border border-[var(--rc-accent-border)] bg-[var(--rc-accent-soft)] p-5">
+        <div className="mt-8 rounded-3xl border border-[var(--rc-accent-border)] bg-[var(--rc-accent-soft)] p-5">
           <h2 className="text-base font-semibold text-[var(--rc-fg)]">Arre, wapas aa gayi!</h2>
           <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
             Isi phone me tumhara adhoora questionnaire pada hai
             {savedCompletion > 0 ? `, lagbhag ${savedCompletion}% zaroori sawaal ho chuke hain` : ''}
             .
           </p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
             <button
               type="button"
               onClick={onResume}
@@ -72,45 +84,65 @@ export function WelcomeScreen({
         </div>
       ) : null}
 
-      <ul className="mt-8 space-y-2.5">
-        {GROUND_RULES.map((rule) => (
+      <ul className="mt-8 overflow-hidden rounded-3xl border border-[var(--rc-border)] bg-[var(--rc-surface)]">
+        {GROUND_RULES.map(({ icon: Icon, title, body }) => (
           <li
-            key={rule}
-            className="flex items-start gap-3 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]"
+            key={title}
+            className="flex items-start gap-4 border-t border-[var(--rc-border)] px-5 py-5 first:border-t-0"
           >
             <span
               aria-hidden="true"
-              className="mt-[0.5rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--rc-accent)]"
-            />
-            {rule}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--rc-accent-soft)]"
+            >
+              <Icon className="h-[18px] w-[18px] text-[var(--rc-accent)]" strokeWidth={1.9} />
+            </span>
+            <span className="min-w-0 pt-0.5">
+              <span className="block text-[0.9375rem] font-semibold leading-snug text-[var(--rc-fg)]">
+                {title}
+              </span>
+              <span className="mt-1 block text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
+                {body}
+              </span>
+            </span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-7 rounded-2xl border border-[var(--rc-border)] bg-[var(--rc-surface)] p-4 sm:p-5">
-        <p className="text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
-          Kuch sawaal thode chubh sakte hain. Koi baat nahi. Sachha jawab hamesha perfect jawab se
-          zyada kaam ka hota hai. Jhooth mat bolna bilkul bhi 🙂
-        </p>
-      </div>
+      <figure className="mt-5 flex gap-3.5 rounded-3xl bg-[var(--rc-surface-muted)] px-5 py-5">
+        <span
+          aria-hidden="true"
+          className="rc-hand shrink-0 text-[2rem] leading-[0.8] text-[var(--rc-accent)] opacity-45"
+        >
+          &ldquo;
+        </span>
+        <blockquote className="min-w-0">
+          <p className="text-[0.9375rem] leading-relaxed text-[var(--rc-fg-muted)]">
+            Kuch sawaal thode chubh sakte hain. Koi baat nahi. Perfect jawab ki zaroorat nahi hai,
+            bas sachhe jawab chahiye.
+          </p>
+          <p className="rc-hand mt-2.5 text-[1.35rem] leading-snug text-[var(--rc-accent)]">
+            Jo genuinely feel hota hai, wahi likhna. 🙂
+          </p>
+        </blockquote>
+      </figure>
 
       {!hasSavedProgress ? (
         <button
           type="button"
           onClick={onStart}
-          className="mt-7 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--rc-accent)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
+          className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--rc-accent)] text-base font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]"
         >
           Chalo shuru karte hain
           <ArrowRight className="h-[18px] w-[18px]" aria-hidden="true" />
         </button>
       ) : null}
 
-      <p className="mt-4 flex items-center justify-center gap-1.5 text-sm text-[var(--rc-fg-subtle)]">
+      <p className="mt-5 flex items-center justify-center gap-1.5 text-sm text-[var(--rc-fg-subtle)]">
         <Clock className="h-4 w-4" aria-hidden="true" />
         Bas 10 minute lagenge
       </p>
 
-      <PrivacyNotice className="mt-6" />
+      <PrivacyNotice className="mt-7" />
 
       <ConfirmDialog
         open={confirmOpen}

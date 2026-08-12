@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { X } from 'lucide-react'
+import { Lightbulb, Sparkles, X } from 'lucide-react'
 import { DEFAULT_TIP } from '@/lib/reality-check/questions'
 import type { QuestionInfo } from '@/lib/reality-check/types'
 
@@ -59,26 +59,42 @@ export function InfoBottomSheet({
           <p className="mt-4 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]">{info.what}</p>
 
           {info.example ? (
-            <div className="mt-5">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--rc-fg-subtle)]">
-                Jaise ki
-              </h3>
-              <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]">
-                {info.example}
-              </p>
+            <div className="mt-6 flex gap-3.5">
+              <span
+                aria-hidden="true"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--rc-accent-soft)]"
+              >
+                <Sparkles className="h-4 w-4 text-[var(--rc-accent)]" strokeWidth={1.9} />
+              </span>
+              <div className="min-w-0 pt-1">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--rc-fg-subtle)]">
+                  Jaise ki
+                </h3>
+                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]">
+                  {info.example}
+                </p>
+              </div>
             </div>
           ) : null}
 
-          <div className="mt-5">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--rc-fg-subtle)]">
-              Tip
-            </h3>
-            <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]">
-              {info.tip ?? DEFAULT_TIP}
-            </p>
+          <div className="mt-5 flex gap-3.5">
+            <span
+              aria-hidden="true"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--rc-accent-soft)]"
+            >
+              <Lightbulb className="h-4 w-4 text-[var(--rc-accent)]" strokeWidth={1.9} />
+            </span>
+            <div className="min-w-0 pt-1">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--rc-fg-subtle)]">
+                Tip
+              </h3>
+              <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[var(--rc-fg)]">
+                {info.tip ?? DEFAULT_TIP}
+              </p>
+            </div>
           </div>
 
-          <Dialog.Close className="mt-6 flex h-12 w-full items-center justify-center rounded-2xl bg-[var(--rc-accent)] text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]">
+          <Dialog.Close className="mt-7 flex h-12 w-full items-center justify-center rounded-2xl bg-[var(--rc-accent)] text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[var(--rc-accent-hover)]">
             Samajh gayi
           </Dialog.Close>
         </Dialog.Content>

@@ -1,5 +1,14 @@
 import type { Metadata, Viewport } from 'next'
+import { Caveat } from 'next/font/google'
 import './reality-check.css'
+
+/** Handwriting accent, sirf ek do lines ke liye, poore text ke liye nahi. */
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--rc-font-hand',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Relationship Reality Check',
@@ -18,6 +27,10 @@ export const viewport: Viewport = {
 
 export default function RealityCheckLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rc-root min-h-[100dvh] bg-[var(--rc-bg)] text-[var(--rc-fg)]">{children}</div>
+    <div
+      className={`rc-root ${caveat.variable} min-h-[100dvh] bg-[var(--rc-bg)] text-[var(--rc-fg)]`}
+    >
+      {children}
+    </div>
   )
 }

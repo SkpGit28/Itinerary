@@ -56,7 +56,7 @@ export function QuestionCard({
       data-question-id={question.id}
       aria-labelledby={labelId}
       className={cn(
-        'scroll-mt-28 rounded-3xl border bg-[var(--rc-surface)] p-5 transition-colors sm:p-6',
+        'scroll-mt-28 rounded-3xl border bg-[var(--rc-surface)] px-5 py-6 transition-colors sm:px-6',
         error ? 'border-[var(--rc-error-border)]' : 'border-[var(--rc-border)]',
         isFollowUp && 'ml-0 border-dashed sm:ml-6'
       )}
@@ -98,7 +98,7 @@ export function QuestionCard({
         </p>
       ) : null}
 
-      <div className="mt-4">
+      <div className="mt-5">
         {question.type === 'segmented' ? <YesNoQuestion {...inputProps} /> : null}
         {question.type === 'scale' ? <ScaleQuestion {...inputProps} /> : null}
         {question.type === 'rating' ? <RatingQuestion {...inputProps} /> : null}

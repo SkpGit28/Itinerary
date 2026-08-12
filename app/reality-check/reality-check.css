@@ -52,6 +52,15 @@
   border-radius: 4px;
 }
 
+/*
+ * Handwriting accent. Sirf ek do lines pe lagana hai, kyunki lambe text me
+ * ye padhne me mushkil ho jaata hai.
+ */
+.rc-hand {
+  font-family: var(--rc-font-hand), 'Segoe Script', 'Bradley Hand', cursive;
+  font-weight: 600;
+}
+
 /* Visually hidden but available to assistive tech and focusable. */
 .rc-sr-only {
   position: absolute;
